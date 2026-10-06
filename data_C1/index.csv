@@ -1,0 +1,76 @@
+run,file,density_per_um,tau_ms,protocol,noise,T_nK,noise_cutoff,dt_safety,realizations,seed,role
+20261005-131531,20261005-131531/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-131531,20261005-131531/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-131531,20261005-131531/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-132026,20261005-132026/tau_100ms.npz,2500.0,100.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-132026,20261005-132026/tau_20ms.npz,2500.0,20.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-132026,20261005-132026/tau_50ms.npz,2500.0,50.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-132617,20261005-132617/tau_10ms.npz,6250.0,10.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 6250/um (Figs. 2-4, 6; exponents)"
+20261005-132617,20261005-132617/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 6250/um (Figs. 2-4, 6; exponents)"
+20261005-132617,20261005-132617/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 6250/um (Figs. 2-4, 6; exponents)"
+20261005-133951,20261005-133951/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 6250/um (Figs. 2-4, 6; exponents)"
+20261005-133951,20261005-133951/tau_200ms.npz,6250.0,200.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 6250/um (Figs. 2-4, 6; exponents)"
+20261005-140819,20261005-140819/tau_100ms.npz,2500.0,100.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 2500/um (Figs. 2-4, 6; exponents)"
+20261005-140819,20261005-140819/tau_10ms.npz,2500.0,10.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 2500/um (Figs. 2-4, 6; exponents)"
+20261005-140819,20261005-140819/tau_20ms.npz,2500.0,20.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 2500/um (Figs. 2-4, 6; exponents)"
+20261005-140819,20261005-140819/tau_50ms.npz,2500.0,50.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 2500/um (Figs. 2-4, 6; exponents)"
+20261005-145757,20261005-145757/tau_10ms.npz,700.0,10.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-145757,20261005-145757/tau_20ms.npz,700.0,20.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-145757,20261005-145757/tau_50ms.npz,700.0,50.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-151305,20261005-151305/tau_100ms.npz,700.0,100.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-152429,20261005-152429/tau_200ms.npz,700.0,200.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-154515,20261005-154515/tau_100ms.npz,6250.0,100.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-154515,20261005-154515/tau_20ms.npz,6250.0,20.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-154515,20261005-154515/tau_50ms.npz,6250.0,50.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,4,0,cited in the paper / docs RESULTS
+20261005-155046,20261005-155046/tau_100ms.npz,6250.0,100.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,16,0,"reverse ramps 6250/um (Figs. 3, 4; melting exponent)"
+20261005-155046,20261005-155046/tau_10ms.npz,6250.0,10.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,16,0,"reverse ramps 6250/um (Figs. 3, 4; melting exponent)"
+20261005-155046,20261005-155046/tau_20ms.npz,6250.0,20.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,16,0,"reverse ramps 6250/um (Figs. 3, 4; melting exponent)"
+20261005-155046,20261005-155046/tau_50ms.npz,6250.0,50.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,16,0,"reverse ramps 6250/um (Figs. 3, 4; melting exponent)"
+20261005-161430,20261005-161430/tau_10ms.npz,700.0,10.0,reverse (crystal start) ramp 83.0 -> 87.0 a0,quantum,0,1.0,0.9,16,0,cited in the paper / docs RESULTS
+20261005-161430,20261005-161430/tau_20ms.npz,700.0,20.0,reverse (crystal start) ramp 83.0 -> 87.0 a0,quantum,0,1.0,0.9,16,0,cited in the paper / docs RESULTS
+20261005-161430,20261005-161430/tau_50ms.npz,700.0,50.0,reverse (crystal start) ramp 83.0 -> 87.0 a0,quantum,0,1.0,0.9,16,0,cited in the paper / docs RESULTS
+20261005-162920,20261005-162920/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,cited in the paper / docs RESULTS
+20261005-165050,20261005-165050/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-170414,20261005-170414/tau_10ms.npz,700.0,10.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,100,cited in the paper / docs RESULTS
+20261005-170414,20261005-170414/tau_20ms.npz,700.0,20.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,100,cited in the paper / docs RESULTS
+20261005-170414,20261005-170414/tau_50ms.npz,700.0,50.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,16,100,cited in the paper / docs RESULTS
+20261005-171904,20261005-171904/tau_300ms.npz,700.0,300.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,8,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-171904,20261005-171904/tau_400ms.npz,700.0,400.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,8,0,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261005-175324,20261005-175324/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-175324,20261005-175324/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-180330,20261005-180330/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-181025,20261005-181025/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,quantum,0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-181821,20261005-181821/tau_20ms.npz,6250.0,20.0,hold at 89.95 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-182509,20261005-182509/tau_20ms.npz,6250.0,20.0,hold at 90.15 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-183155,20261005-183155/tau_20ms.npz,6250.0,20.0,hold at 90.25 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-190818,20261005-190818/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-191441,20261005-191441/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,4,7,cited in the paper / docs RESULTS
+20261005-191531,20261005-191531/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,4,7,cited in the paper / docs RESULTS
+20261005-191921,20261005-191921/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,2.5,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-192559,20261005-192559/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,10.0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-193642,20261005-193642/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-195954,20261005-195954/tau_50ms.npz,700.0,50.0,reverse (crystal start) ramp 83.0 -> 89.0 a0,quantum,0,1.0,0.9,8,0,cited in the paper / docs RESULTS
+20261005-205640,20261005-205640/tau_20ms.npz,6250.0,20.0,hold at 89.95 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,16,200,cited in the paper / docs RESULTS
+20261005-211050,20261005-211050/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,16,200,cited in the paper / docs RESULTS
+20261005-212444,20261005-212444/tau_20ms.npz,6250.0,20.0,hold at 90.15 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,16,200,cited in the paper / docs RESULTS
+20261005-213927,20261005-213927/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,2.5,1.0,0.9,16,200,cited in the paper / docs RESULTS
+20261005-215509,20261005-215509/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,10.0,1.0,0.9,16,200,cited in the paper / docs RESULTS
+20261005-221252,20261005-221252/tau_45ms.npz,6250.0,45.0,forward ramp 90.5 -> 89.6 a0,thermal,5.0,1.0,0.9,16,300,cited in the paper / docs RESULTS
+20261005-221252,20261005-221252/tau_90ms.npz,6250.0,90.0,forward ramp 90.5 -> 89.6 a0,thermal,5.0,1.0,0.9,16,300,cited in the paper / docs RESULTS
+20261005-223121,20261005-223121/tau_120ms.npz,6250.0,120.0,forward ramp 92.0 -> 89.6 a0,thermal,5.0,1.0,0.9,16,400,cited in the paper / docs RESULTS
+20261005-224452,20261005-224452/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 90.5 a0,thermal,5.0,1.0,0.9,16,400,cited in the paper / docs RESULTS
+20261005-230857,20261005-230857/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,quantum,0,0.7,0.9,16,0,cited in the paper / docs RESULTS
+20261005-230857,20261005-230857/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,0.7,0.9,16,0,cited in the paper / docs RESULTS
+20261005-232442,20261005-232442/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.3,0.9,16,0,cited in the paper / docs RESULTS
+20261005-232442,20261005-232442/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.3,0.9,16,0,cited in the paper / docs RESULTS
+20261005-234029,20261005-234029/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,0.7,0.9,16,200,cited in the paper / docs RESULTS
+20261005-235454,20261005-235454/tau_20ms.npz,6250.0,20.0,hold at 90.05 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.3,0.9,16,200,cited in the paper / docs RESULTS
+20261006-012712,20261006-012712/tau_200ms.npz,2500.0,200.0,forward ramp 96.0 -> 88.0 a0,quantum,0,1.0,0.9,16,0,"forward ramps 2500/um (Figs. 2-4, 6; exponents)"
+20261006-014539,20261006-014539/tau_200ms.npz,6250.0,200.0,reverse (crystal start) ramp 88.5 -> 92.0 a0,quantum,0,1.0,0.9,16,0,"reverse ramps 6250/um (Figs. 3, 4; melting exponent)"
+20261006-020234,20261006-020234/tau_100ms.npz,6250.0,100.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,16,500,cited in the paper / docs RESULTS
+20261006-020234,20261006-020234/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,16,500,cited in the paper / docs RESULTS
+20261006-021817,20261006-021817/tau_120ms.npz,6250.0,120.0,forward ramp 92.0 -> 89.6 a0,thermal,5.0,1.0,0.9,16,600,cited in the paper / docs RESULTS
+20261006-022814,20261006-022814/tau_300ms.npz,700.0,300.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,8,7,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261006-022814,20261006-022814/tau_400ms.npz,700.0,400.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,8,7,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
+20261006-142433,20261006-142433/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.45,16,0,cited in the paper / docs RESULTS
+20261006-142433,20261006-142433/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.45,16,0,cited in the paper / docs RESULTS

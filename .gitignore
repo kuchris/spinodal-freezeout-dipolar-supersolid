@@ -24,11 +24,11 @@ docs/*.pdf
 # Packaged submission sources
 paper/*.zip
 
-# Reduced public data set for paper C1 (tools/export_c1_data.py; archived on Zenodo)
-data_C1/
+# Packaged data archive
 data_C1.zip
 
 # Compiled or packaged paper outputs
 paper/**/*.pdf
 paper/*.pdf
 paper/**/*.zip
+!data_C1/**

@@ -18,7 +18,8 @@ gradient ground states, Bogoliubov–de Gennes spectra, run records).
 | folder | content |
 |---|---|
 | `benchmarks/` | simulation and analysis scripts of the paper |
-| `runs/` | run records: command, parameters, code version, environment, logs and results of every computation (fields in the data archive) |
+| `data_C1/` | per-realization observables of every simulation (NumPy archives, with parameters and checksums) |
+| `runs/` | run records: command, parameters, code version, environment, logs and results of every computation |
 | `docs/C1_record.md` | log of the results and of the issues found and resolved |
 | `src/dipgpe/`, `tests/` | the solver and its tests |
 
@@ -29,10 +30,9 @@ gradient ground states, Bogoliubov–de Gennes spectra, run records).
 
 ## Reproduce the paper
 
-1. Download `data_C1.zip` from Zenodo ([DOI to be added]) and unzip it in the
-   repository root, giving `data_C1/` (70 MB: per-realization observables of
-   every simulation in the paper; see `data_C1/README.md`).
-2. Run the analysis; each script writes a new record under `runs/`:
+The data are included in `data_C1/` (70 MB: per-realization observables of
+every simulation in the paper; see `data_C1/README.md`). Run the analysis; each
+script writes a new record under `runs/`:
 
 | result | command |
 |---|---|
