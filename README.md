@@ -1,6 +1,11 @@
 # Spinodal-controlled freeze-out and nucleation at the first-order superfluid–supersolid transition of a dipolar gas
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23181065.svg)](https://doi.org/10.5281/zenodo.23181065)
+[![Code DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23181065.svg)](https://doi.org/10.5281/zenodo.23181065)
+[![Data DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23181219.svg)](https://doi.org/10.5281/zenodo.23181219)
+
+Code: Zenodo [10.5281/zenodo.23181065](https://doi.org/10.5281/zenodo.23181065) (all versions).
+Reduced data: Zenodo dataset [10.5281/zenodo.23181219](https://doi.org/10.5281/zenodo.23181219)
+(`data_C1.zip`, identical to `data_C1/` here).
 
 Code, run records and analysis of the paper
 
