@@ -1,0 +1,80 @@
+[
+ {
+  "tau_ms": 20.0,
+  "freeze_out_ms": 5.0250000000000945,
+  "t_c_ms": 22.375000000000007,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 31800,
+  "seconds": 38.924214124679565,
+  "final_mean_fs": 0.2536932136805003,
+  "final_mean_contrast": 0.9977456022367357
+ },
+ {
+  "tau_ms": 50.0,
+  "freeze_out_ms": 6.862499999999834,
+  "t_c_ms": 40.937500000000014,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 47700,
+  "seconds": 58.08838081359863,
+  "final_mean_fs": 0.33004087083473194,
+  "final_mean_contrast": 0.991897211638997
+ },
+ {
+  "tau_ms": 100.0,
+  "freeze_out_ms": 8.524999999999963,
+  "t_c_ms": 71.87500000000003,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 74200,
+  "seconds": 90.85909032821655,
+  "final_mean_fs": 0.34657227955007397,
+  "final_mean_contrast": 0.9811121433373378
+ },
+ {
+  "tau_ms": 200.0,
+  "freeze_out_ms": 10.650000000001882,
+  "t_c_ms": 133.75000000000006,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 127200,
+  "seconds": 155.78430795669556,
+  "final_mean_fs": 0.3423651176176424,
+  "final_mean_contrast": 0.9662503788136368
+ },
+ {
+  "tau_ms": 400.0,
+  "freeze_out_ms": 13.199999999989245,
+  "t_c_ms": 257.5000000000001,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 233200,
+  "seconds": 291.0128071308136,
+  "final_mean_fs": 0.349432203382095,
+  "final_mean_contrast": 0.9477680800428223
+ },
+ {
+  "tau_ms": 770.0,
+  "freeze_out_ms": 16.06250000003547,
+  "t_c_ms": 486.4375000000003,
+  "samples": 64,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017782599925979963,
+  "steps": 429300,
+  "seconds": 540.5352189540863,
+  "final_mean_fs": 0.35383270378710907,
+  "final_mean_contrast": 0.9348121639517253
+ }
+]

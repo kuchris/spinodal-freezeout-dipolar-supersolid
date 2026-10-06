@@ -1,0 +1,2 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261004-141630_tube_bdg_roton
+a_s = 92.4: omega_rot = 0.007977 at k = 1.5725 (wavelength 3.996 l)

@@ -1,0 +1,17 @@
+[
+ {
+  "tau_ms": 200.0,
+  "freeze_out_ms": 9.300000000002342,
+  "t_c_ms": 118.00000000000003,
+  "samples": 16,
+  "noise_modes": 146,
+  "noise_added_fraction": 0.00013224637681159422,
+  "dt": 0.00942477796076938,
+  "steps": 23000,
+  "seconds": 1009.3240053653717,
+  "final_mean_fs": 0.9576491171528889,
+  "final_mean_contrast": 0.4343703971185624,
+  "final_mean_peaks": 25.375,
+  "ground_state_cells": 32
+ }
+]

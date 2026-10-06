@@ -1,0 +1,10 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-005533_tube_crystal_bdg
+a_s = 90.33: crystal contrast 0.6739, mu 12.679736 (2 s)
+  q = 0 pi/L: omega = [2e-06, 0.369374, 0.999998, 1.0] (600 iterations, 198 s)
+a_s = 90.36: crystal contrast 0.6478, mu 12.681732 (1 s)
+  q = 0 pi/L: omega = [2e-06, 0.291974, 0.999998, 1.000001] (600 iterations, 155 s)
+a_s = 90.38: crystal contrast 0.6146, mu 12.681204 (1 s)
+  q = 0 pi/L: omega = [1e-06, 0.175468, 0.999999, 1.000001] (600 iterations, 159 s)
+a_s = 90.4: crystal contrast 0.0000, mu 12.639523 (1 s)
+  crystal lost: stop
+q = 0 soft mode: omega^4 linear in a_s -> a_end = 90.3818 a0

@@ -1,0 +1,208 @@
+diff --git a/benchmarks/tube_crystal_bdg.py b/benchmarks/tube_crystal_bdg.py
+index 42a94f9..a16647f 100644
+--- a/benchmarks/tube_crystal_bdg.py
++++ b/benchmarks/tube_crystal_bdg.py
+@@ -4,8 +4,9 @@ The crystal cell of the 3D ramps (6250/um, cell 2.76 um, dx = 0.25 l, L_perp =
+ 24 l, the model of tube_ramp.py) is continued upwards in a_s from a warm start,
+ and the lowest Bogoliubov frequencies are computed at quasi-momenta q = f pi/L_cell
+ (f = 0: same period as the cell; f = 1: zone edge). The gauge and translation
+-modes are zero at q = 0; the lowest other mode is the candidate soft mode of
+-the branch end. For a saddle-node (fold) end, omega^2 vanishes as
++modes are zero at q = 0; the translation mode d psi/dz is a zero mode of M and is
++deflated (removed), so at q = 0 the spectrum starts with the gauge mode and the
++lowest other mode is the candidate soft mode of the branch end. For a saddle-node (fold) end, omega^2 vanishes as
+ sqrt(a_end - a_s), i.e. omega^4 is linear in a_s; the zero of the fitted line
+ estimates a_end. The continuation stops when the crystal is lost (line
+ contrast < 0.05).
+@@ -51,6 +52,8 @@ def main():
+     p.add_argument("--L-perp", type=float, default=24.0)
+     p.add_argument("--tol", type=float, default=1e-4, help="relative residual (frequencies to ~tol^2)")
+     p.add_argument("--max-iter", type=int, default=600)
++    p.add_argument("--warm", action="store_true",
++                   help="warm-start each a_s from the previous modes (slower here and can be ill-conditioned)")
+     args = p.parse_args()
+     um = UNITS.microns(1.0)
+     L = args.cells * args.cell_um / um
+@@ -80,10 +83,14 @@ def main():
+                 row["lost"] = True
+                 rows.append(row)
+                 break
++            amp = psi.abs().to(torch.complex128)                       # real ground state
++            kz = grid.k64[2]
++            dpsi = torch.fft.ifftn(1j * kz * torch.fft.fftn(amp, dim=grid.dims), dim=grid.dims)
+             for f in fracs:
+                 t0 = time.time()
+                 w, _, binfo = bogoliubov(model, psi, q=f * math.pi / Lc, n_modes=args.n_modes, tol=args.tol,
+-                                         max_iter=args.max_iter, x0=warm.get(f))
++                                         max_iter=args.max_iter, x0=warm.get(f) if args.warm else None,
++                                         deflate=[dpsi] if f == 0 else None)
+                 warm[f] = binfo["g"]                                   # warm start for the next a_s
+                 row["bands"][str(f)] = w.tolist()
+                 row.setdefault("iterations", {})[str(f)] = binfo["iterations"]
+@@ -91,8 +98,8 @@ def main():
+                       f"({binfo['iterations']} iterations, {time.time() - t0:.0f} s)", flush=True)
+             rows.append(row)
+             run.save_json("crystal_bdg.json", {"rows": rows})
+-        # soft mode: lowest q = 0 frequency above the two zero modes (gauge, translation)
+-        pts = [(r["a_s"], r["bands"]["0.0"][2]) for r in rows if "0.0" in r.get("bands", {})]
++        # soft mode: lowest q = 0 frequency above the gauge mode (translation deflated)
++        pts = [(r["a_s"], r["bands"]["0.0"][1]) for r in rows if "0.0" in r.get("bands", {})]
+         out = {"rows": rows, "soft_q0": pts}
+         if len(pts) >= 2:
+             A = torch.tensor([[1.0, a] for a, _ in pts], dtype=torch.float64)
+diff --git a/src/qs/bdg.py b/src/qs/bdg.py
+index 3fb1c19..73641a4 100644
+--- a/src/qs/bdg.py
++++ b/src/qs/bdg.py
+@@ -60,6 +60,7 @@ class Bogoliubov:
+         for i, ki in enumerate(grid.k64):
+             k2 = k2 + (ki + (self.q if i == self.axis else 0.0)) ** 2
+         self.kin = (0.5 * k2).to(grid.real_dtype)
++        self.deflate = []
+ 
+     def _fft(self, f):
+         return torch.fft.fftn(f, dim=self.grid.dims)
+@@ -84,14 +85,22 @@ class Bogoliubov:
+     def precondition(self, r, shift):
+         return self._ifft(self._fft(r) / (self.kin + shift))
+ 
++    def project(self, f):
++        """Remove the components along the deflated fields (kernel of M, e.g. translation)."""
++        for v in self.deflate:
++            f = f - v * (v.conj() * f).sum(dim=self.grid.dims, keepdim=True)
++        return f
++
+     def solve_M(self, Y, shift, tol=1e-13, max_iter=5000):
+-        """M^-1 Y for a block Y (leading axis) by preconditioned conjugate gradients."""
++        """M^-1 Y for a block Y (leading axis) by preconditioned conjugate gradients
++        (within the complement of the deflated fields)."""
+         dims = self.grid.dims
+         dot = lambda a, b: (a.conj() * b).sum(dim=dims)
+         expand = lambda c: c.reshape(c.shape + (1,) * self.grid.ndim)
++        Y = self.project(Y)
+         x = torch.zeros_like(Y)
+         r = Y.clone()
+-        z = self.precondition(r, shift)
++        z = self.project(self.precondition(r, shift))
+         p = z.clone()
+         rz = dot(r, z)
+         ynorm = torch.sqrt(dot(Y, Y).real)
+@@ -99,10 +108,10 @@ class Bogoliubov:
+             Ap = self.M(p)
+             alpha = rz / dot(p, Ap)
+             x = x + expand(alpha) * p
+-            r = r - expand(alpha) * Ap
++            r = self.project(r - expand(alpha) * Ap)          # projected system P M P x = P Y
+             if bool((torch.sqrt(dot(r, r).real) <= tol * ynorm).all()):
+                 return x
+-            z = self.precondition(r, shift)
++            z = self.project(self.precondition(r, shift))
+             rz_new = dot(r, z)
+             p = z + expand(rz_new / rz) * p
+             rz = rz_new
+@@ -118,7 +127,11 @@ def _rayleigh_ritz(grid, S, AS, BS, m):
+     """Lowest m Ritz pairs of (S^H A S, S^H B S), dropping near-dependent directions."""
+     GA, GB = _inner(grid, S, AS), _inner(grid, S, BS)
+     GA, GB = 0.5 * (GA + GA.conj().T), 0.5 * (GB + GB.conj().T)
+-    wB, VB = torch.linalg.eigh(GB)
++    try:
++        wB, VB = torch.linalg.eigh(GB)
++    except torch.linalg.LinAlgError:                     # nearly dependent block: regularize the Gram matrix
++        eps = 1e-13 * float(GB.diagonal().real.abs().max())
++        wB, VB = torch.linalg.eigh(GB + eps * torch.eye(GB.shape[0], dtype=GB.dtype, device=GB.device))
+     keep = wB > 1e-12 * wB.max()
+     T = VB[:, keep] / torch.sqrt(wB[keep])
+     w, Y = torch.linalg.eigh(T.conj().T @ GA @ T)
+@@ -127,7 +140,7 @@ def _rayleigh_ritz(grid, S, AS, BS, m):
+ 
+ 
+ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000, block=None, seed=0,
+-               shift=None, x0=None, verbose=False):
++               shift=None, x0=None, deflate=None, verbose=False):
+     """Lowest Bogoliubov frequencies at quasi-momentum q (along ``axis``).
+ 
+     Returns (omega, modes, info): omega ascending (float64 tensor, sqrt of the
+@@ -137,9 +150,16 @@ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000,
+     mode (modes with w ~ 0, e.g. the gauge mode, on the scale of the largest
+     wanted w^2). ``x0`` (block of fields) warm-starts the iteration; note it is
+     in the g = M f_- representation, i.e. pass ``info["g"]`` of a nearby q.
++    ``deflate`` (fields) removes zero modes of M from the problem: at q = 0 a
++    modulated state has the translation mode d psi0/dz in the kernel of M, which
++    makes M^-1 singular; pass [d psi0/dz] to compute the other modes (the
++    translation Goldstone pair is then absent from the spectrum).
+     """
+     op = Bogoliubov(model, psi0, q, axis)
+     grid = op.grid
++    for v in deflate or []:                              # orthonormalize (plain sum inner product)
++        v = op.project(v.to(grid.dtype))
++        op.deflate.append(v / torch.sqrt((v.conj() * v).sum().real))
+     m = block or n_modes + max(2, n_modes // 2)
+     gen = torch.Generator().manual_seed(seed)
+     shape = (m,) + grid.shape
+@@ -149,6 +169,7 @@ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000,
+     if x0 is not None:                                   # warm start, e.g. modes of a nearby q
+         k0 = min(len(x0), m)
+         X[:k0] = x0[:k0].to(X.dtype)
++    X = op.project(X)
+     shift = shift if shift is not None else max(abs(op.mu), 1.0)
+     apply_B = lambda Y: op.solve_M(Y, shift)
+     apply_A = op.L
+@@ -169,7 +190,7 @@ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000,
+         if bool((res[:n_modes] <= tol).all()):
+             break
+         active = res > tol                               # soft locking: no new directions for converged vectors
+-        W = op.precondition(R[active], shift)
++        W = op.project(op.precondition(R[active], shift))
+         BW = apply_B(W)
+         AW = apply_A(W)
+         blocks = [(X, AX, BX), (W, AW, BW)]
+@@ -178,10 +199,21 @@ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000,
+         S = torch.cat([b[0] for b in blocks])
+         AS = torch.cat([b[1] for b in blocks])
+         BS = torch.cat([b[2] for b in blocks])
+-        norms = torch.sqrt(_inner(grid, S, BS).diagonal().real.clamp_min(1e-300))
++        d = _inner(grid, S, BS).diagonal().real
++        keep = d > 1e-14 * float(d[:m].max())            # drop new directions with ~0 (or negative) B-norm
++        keep[:m] = True
++        if not bool(keep.all()):
++            S, AS, BS, d = S[keep], AS[keep], BS[keep], d[keep]
++        norms = torch.sqrt(d.clamp_min(1e-300))
+         sc = (1 / norms).to(S.dtype).reshape(-1, *([1] * grid.ndim))
+         S, AS, BS = S * sc, AS * sc, BS * sc
+-        lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
++        try:
++            lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
++        except torch.linalg.LinAlgError:
++            if P is None:
++                raise
++            P = AP = BP = None                           # ill-conditioned with P: restart without it
++            continue
+         if float(lam_new.real.min()) < -1e-8 * float(lam_new.real.abs().max()) and P is not None:
+             P = AP = BP = None                           # loss of positivity: restart without P
+             continue
+diff --git a/tests/test_bdg.py b/tests/test_bdg.py
+index 7f97525..2e64884 100644
+--- a/tests/test_bdg.py
++++ b/tests/test_bdg.py
+@@ -24,6 +24,21 @@ def test_uniform_contact_gas_1d_with_bloch_shift():
+         assert max(abs(a - b) for a, b in zip(w.tolist(), exact)) < 1e-7, (q, w.tolist(), exact)
+ 
+ 
++def test_deflation_removes_one_mode_of_a_degenerate_pair():
++    """q = 0: the modes cos(k1 z), sin(k1 z) are degenerate (and L, M both keep the
++    complement of cos(k1 z) invariant); deflating cos(k1 z) leaves omega(k1) once,
++    followed by omega(k2) twice."""
++    L, n, g = 20.0, 2.0, 3.0
++    grid = qs.Grid(256, L, dtype=C128, device=DEVICE)
++    model = qs.GPE(grid, qs.Contact(g))
++    k1 = 2 * math.pi / L
++    cos1 = torch.cos(k1 * grid.x64[0]).to(C128)
++    w, _, _ = bogoliubov(model, uniform(grid, n), n_modes=4, deflate=[cos1])
++    om = lambda k: math.sqrt(k * k / 2 * (k * k / 2 + 2 * g * n))  # noqa: E731
++    exact = [0.0, om(k1), om(2 * k1), om(2 * k1)]
++    assert max(abs(a - b) for a, b in zip(w.tolist(), exact)) < 1e-6, (w.tolist(), exact)
++
++
+ def test_uniform_dipolar_lhy_gas_3d():
+     """omega^2 = e_k (e_k + 2 n [g + U_dd(k) + (3/2) gamma n^(1/2)]), periodic kernel."""
+     L, n, g, gdd, gamma = 12.0, 1.5, 2.0, 1.2, 0.3

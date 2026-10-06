@@ -1,0 +1,85 @@
+diff --git a/benchmarks/tube_ramp.py b/benchmarks/tube_ramp.py
+index 069ed9e..61a2285 100644
+--- a/benchmarks/tube_ramp.py
++++ b/benchmarks/tube_ramp.py
+@@ -63,7 +63,7 @@ def build(args):
+         return grid, model, psi0, line, 0
+     # 3D: tube along z, dipoles along y, isotropic transverse trap (omega = 1)
+     Np = 2 * round(args.L_perp / args.dx / 2)
+-    N_z = 2 * round(L / args.dx / 2)
++    N_z = 2 * round(L / args.dx / 2) if args.initial == "uniform" else args.cells * round(L / args.cells / args.dx)
+     def model_on(g, a_fn):
+         x, y, _ = g.x64
+         a = (lambda t: UNITS.bohr(a_fn(t)))
+@@ -71,14 +71,29 @@ def build(args):
+                       qs.Contact(lambda t: 4 * math.pi * a(t)),
+                       qs.Dipolar(g, 4 * math.pi * A_DD, direction=(0, 1, 0), cutoff="tube"),
+                       qs.LHY(lambda t: qs.lhy_coefficient(a(t), A_DD)))
+-    cell = qs.Grid((Np, Np, 8), (args.L_perp, args.L_perp, 8 * args.dx), dtype=torch.complex128, device="cuda")
+-    x, y, _ = cell.x64
+-    seed = torch.exp(-(x * x + y * y) / 2).expand(cell.shape).to(torch.complex128)
+-    psi_c, _ = qs.ground_state(model_on(cell, lambda t: args.a_i), qs.normalize(cell, seed, n * cell.length[2]),
+-                               tol=1e-9, preconditioner="combined")
+-    psi_c = psi_c.mean(dim=2, keepdim=True)                       # z-uniform
+     grid = qs.Grid((Np, Np, N_z), (args.L_perp, args.L_perp, L), dtype=dtype, device="cuda")
+-    psi0 = psi_c.expand(grid.shape).to(dtype).contiguous()
++    if args.initial == "uniform":
++        cell = qs.Grid((Np, Np, 8), (args.L_perp, args.L_perp, 8 * args.dx), dtype=torch.complex128, device="cuda")
++        x, y, _ = cell.x64
++        seed = torch.exp(-(x * x + y * y) / 2).expand(cell.shape).to(torch.complex128)
++        psi_c, _ = qs.ground_state(model_on(cell, lambda t: args.a_i), qs.normalize(cell, seed, n * cell.length[2]),
++                                   tol=1e-9, preconditioner="combined")
++        psi0 = psi_c.mean(dim=2, keepdim=True).expand(grid.shape).to(dtype).contiguous()      # z-uniform
++    else:                                    # crystal: one cell of N_z / cells points, tiled
++        nz = N_z // args.cells
++        if nz * args.cells != N_z:
++            raise ValueError("tube points must be a multiple of the cell count (adjust --dx or --cell-um)")
++        cell = qs.Grid((Np, Np, nz), (args.L_perp, args.L_perp, L / args.cells), dtype=torch.complex128,
++                       device="cuda")
++        x, y, z = cell.x64
++        seed = (torch.exp(-(x * x + y * y) / 2) * (1 + 0.5 * torch.cos(2 * math.pi * z / cell.length[2]))
++                ).to(torch.complex128)
++        psi_c, info = qs.ground_state(model_on(cell, lambda t: args.a_i), qs.normalize(cell, seed, n * cell.length[2]),
++                                      tol=1e-9, preconditioner="combined")
++        line_c = (psi_c.abs() ** 2).sum((0, 1))
++        print(f"  crystal cell at {args.a_i} a0: line contrast "
++              f"{float((line_c.max() - line_c.min()) / (line_c.max() + line_c.min())):.3f}", flush=True)
++        psi0 = psi_c.repeat(1, 1, args.cells).to(dtype).contiguous()
+     line = lambda psi: (psi.abs() ** 2).sum(dim=(-3, -2)) * grid.dx[0] * grid.dx[1]
+     return grid, model_on(grid, a_t), psi0, line, 2
+ 
+@@ -147,7 +162,9 @@ def run_tau(args, tau_ms, run):
+     t_c = args.equil_ms + tau_ms * (args.a_i - args.a_c) / (args.a_i - args.a_f) if args.a_c else None
+     cross = None
+     if t_c is not None:
+-        after = [i for i, t in enumerate(times) if t >= t_c and float(mean_fs[i]) < 0.98]
++        melt = args.a_f > args.a_i                                   # reverse ramp: crystal -> uniform
++        after = [i for i, t in enumerate(times) if t >= t_c and (float(mean_fs[i]) > 0.98 if melt
++                                                                 else float(mean_fs[i]) < 0.98)]
+         cross = times[after[0]] - t_c if after else None
+     seconds = time.time() - t0
+     stem = f"tau_{tau_ms:g}ms"
+@@ -191,6 +208,8 @@ def main():
+     p.add_argument("--save-samples", type=int, default=4)
+     p.add_argument("--store-every", type=int, default=1, help="store g2 and line densities every n records")
+     p.add_argument("--complex64", action="store_true")
++    p.add_argument("--initial", choices=["uniform", "crystal"], default="uniform",
++                   help="crystal: ground-state cell at a_i tiled --cells times (reverse ramps, a_f > a_i)")
+     args = p.parse_args()
+     if args.dx is None:
+         args.dx = 0.0625 if args.model == "1d" else 0.25
+diff --git a/benchmarks/tube_ramp_analysis.py b/benchmarks/tube_ramp_analysis.py
+index 5bbd2de..946f876 100644
+--- a/benchmarks/tube_ramp_analysis.py
++++ b/benchmarks/tube_ramp_analysis.py
+@@ -69,7 +69,9 @@ def main():
+             mean_fs = D["fs"].mean(1)
+             a_c = args.a_c if args.a_c is not None else a["a_c"]
+             t_c = a["equil_ms"] + tau * (a["a_i"] - a_c) / (a["a_i"] - a["a_f"])
+-            idx = [i for i in range(len(times)) if times[i] >= t_c and mean_fs[i] < 0.98]
++            melt = a["a_f"] > a["a_i"]                             # reverse ramp: <f_s> rises above 0.98
++            idx = [i for i in range(len(times)) if times[i] >= t_c and
++                   (mean_fs[i] > 0.98 if melt else mean_fs[i] < 0.98)]
+             if not idx:
+                 print(f"{d.name} tau {tau:g}: no freeze-out")
+                 continue

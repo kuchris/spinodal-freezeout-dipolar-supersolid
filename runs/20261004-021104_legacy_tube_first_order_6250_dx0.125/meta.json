@@ -1,0 +1,19 @@
+{
+ "id": "20261004-021104_legacy_tube_first_order_6250_dx0.125",
+ "name": "legacy_tube_first_order_6250_dx0.125",
+ "params": {},
+ "note": "benchmarks/tube_first_order.py, resolution check; imported from results/ (before qs.runs); commit = last commit before the file time",
+ "command": null,
+ "git_commit": "69479e2cba034b5d6336f6e6e72ad77473d0cf4f",
+ "git_dirty": null,
+ "environment": null,
+ "start": "2026-10-04T02:11:04",
+ "end": "2026-10-04T02:11:04",
+ "wall_s": null,
+ "status": "finished",
+ "registered": "2026-10-04T13:54:07",
+ "sources": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_6250_dx0.125.json",
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_6250_dx0.125.log"
+ ]
+}

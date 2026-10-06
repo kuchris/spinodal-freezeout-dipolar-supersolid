@@ -1,0 +1,81 @@
+diff --git a/benchmarks/tube_ramp_analysis.py b/benchmarks/tube_ramp_analysis.py
+index 946f876..b6c559e 100644
+--- a/benchmarks/tube_ramp_analysis.py
++++ b/benchmarks/tube_ramp_analysis.py
+@@ -57,36 +57,51 @@ def main():
+     p.add_argument("runs", nargs="+")
+     p.add_argument("--fit-um", type=float, default=60.0)
+     p.add_argument("--a-c", type=float, default=None, help="override the critical a_s used for t_c")
++    p.add_argument("--pool", action="store_true",
++                   help="pool realizations of equal tau_Q across runs (same protocol and records)")
+     args = p.parse_args()
+     rows = []
++    entries = []
+     for ref in args.runs:
+         d = Path(runs.resolve(ref))
+         for f in sorted((d / "data").glob("tau_*ms.pt")):
+-            D = torch.load(f)
+-            a = D["args"]
+-            tau = float(f.stem[4:-2])
+-            times = torch.tensor(D["times_ms"])
+-            mean_fs = D["fs"].mean(1)
+-            a_c = args.a_c if args.a_c is not None else a["a_c"]
+-            t_c = a["equil_ms"] + tau * (a["a_i"] - a_c) / (a["a_i"] - a["a_f"])
+-            melt = a["a_f"] > a["a_i"]                             # reverse ramp: <f_s> rises above 0.98
+-            idx = [i for i in range(len(times)) if times[i] >= t_c and
+-                   (mean_fs[i] > 0.98 if melt else mean_fs[i] < 0.98)]
+-            if not idx:
+-                print(f"{d.name} tau {tau:g}: no freeze-out")
+-                continue
+-            i = idx[0]
+-            g2_times = D.get("g2_times_ms", D["times_ms"])          # g2 may be stored less often
+-            j = min(range(len(g2_times)), key=lambda q: abs(g2_times[q] - float(times[i])))
+-            g2 = D["g2"][j].to(torch.float64)
+-            dz = torch.arange(len(g2), dtype=torch.float64) * D["dz_um"]
+-            m = dz <= args.fit_um
+-            cell = a["cell_um"]
+-            X, K, A, loss = fit_envelope(dz[m], g2[m] / g2[0], 2 * math.pi / cell)   # normalized: 1 at dz = 0
+-            rows.append((tau, float(times[i]) - t_c, X))
+-            print(f"{d.name} tau_Q = {tau:g} ms: t_hat = {float(times[i]) - t_c:.3f} ms, X = {X:.2f} um "
+-                  f"(K = {K:.3f}/um, period {2 * math.pi / K:.2f} um, A = {A:.3f}, residual {loss:.1e}), "
+-                  f"samples {D['fs'].shape[1]}")
++            entries.append((d, float(f.stem[4:-2]), torch.load(f)))
++    if args.pool:                       # concatenate f_s over realizations; g2 averaged by realization count
++        pooled = {}
++        for d, tau, D in entries:
++            if tau not in pooled:
++                pooled[tau] = (d, tau, dict(D))
++            else:
++                P = pooled[tau][2]
++                n0, n1 = P["fs"].shape[1], D["fs"].shape[1]
++                assert len(P["times_ms"]) == len(D["times_ms"]), "pooled runs need the same records"
++                P["g2"] = (P["g2"] * n0 + D["g2"] * n1) / (n0 + n1)
++                P["fs"] = torch.cat([P["fs"], D["fs"]], 1)
++        entries = list(pooled.values())
++    for d, tau, D in entries:
++        a = D["args"]
++        times = torch.tensor(D["times_ms"])
++        mean_fs = D["fs"].mean(1)
++        a_c = args.a_c if args.a_c is not None else a["a_c"]
++        t_c = a["equil_ms"] + tau * (a["a_i"] - a_c) / (a["a_i"] - a["a_f"])
++        melt = a["a_f"] > a["a_i"]                             # reverse ramp: <f_s> rises above 0.98
++        idx = [i for i in range(len(times)) if times[i] >= t_c and
++               (mean_fs[i] > 0.98 if melt else mean_fs[i] < 0.98)]
++        if not idx:
++            print(f"{d.name} tau {tau:g}: no freeze-out")
++            continue
++        i = idx[0]
++        g2_times = D.get("g2_times_ms", D["times_ms"])          # g2 may be stored less often
++        j = min(range(len(g2_times)), key=lambda q: abs(g2_times[q] - float(times[i])))
++        g2 = D["g2"][j].to(torch.float64)
++        dz = torch.arange(len(g2), dtype=torch.float64) * D["dz_um"]
++        m = dz <= args.fit_um
++        cell = a["cell_um"]
++        X, K, A, loss = fit_envelope(dz[m], g2[m] / g2[0], 2 * math.pi / cell)   # normalized: 1 at dz = 0
++        rows.append((tau, float(times[i]) - t_c, X))
++        print(f"{d.name} tau_Q = {tau:g} ms: t_hat = {float(times[i]) - t_c:.3f} ms, X = {X:.2f} um "
++              f"(K = {K:.3f}/um, period {2 * math.pi / K:.2f} um, A = {A:.3f}, residual {loss:.1e}), "
++              f"samples {D['fs'].shape[1]}")
+     rows.sort()
+     if len(rows) >= 2:
+         z, ze = power_law([r[0] for r in rows], [r[1] for r in rows])

@@ -1,0 +1,3 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261005-213927_tube_ramp_3d
+    65.37 ms per step (16 samples), 18000 steps, estimated 1177 s
+  tau_Q = 20 ms: freeze-out None ms after t_c, final <f_s> = 0.887, noise adds 0.19% (937 s)

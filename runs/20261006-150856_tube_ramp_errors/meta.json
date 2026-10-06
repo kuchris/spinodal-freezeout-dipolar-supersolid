@@ -1,0 +1,29 @@
+{
+ "id": "20261006-150856_tube_ramp_errors",
+ "name": "tube_ramp_errors",
+ "params": {
+  "boot": 2000,
+  "delta_a": 0.01
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_ramp_errors.py"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "fd3da105a5e33887b09f982351258b92ba1a5ca3",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-06T15:08:56",
+ "status": "finished",
+ "wall_s": 0.9085256999824196,
+ "end": "2026-10-06T15:08:57"
+}

@@ -1,0 +1,5 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-025952_tube_ramp_errors
+6250 forward: zeta(0.98) = 0.342; bootstrap 0.005; thresholds 0.99: 0.347, 0.98: 0.342, 0.95: 0.334, 0.9: 0.329; reference +-0.01 a0 -> +-0.007; total 0.019
+2500 forward: zeta(0.98) = 0.364; bootstrap 0.006; thresholds 0.99: 0.360, 0.98: 0.364, 0.95: 0.367, 0.9: 0.370; reference +-0.01 a0 -> +-0.005; total 0.018
+700 forward: zeta(0.98) = 0.262; bootstrap 0.013; thresholds 0.99: 0.258, 0.98: 0.262, 0.95: 0.263, 0.9: 0.262; reference +-0.01 a0 -> +-0.013; total 0.024
+6250 reverse: zeta(0.98) = 0.351; bootstrap 0.002; thresholds 0.99: 0.346, 0.98: 0.351, 0.95: 0.364, 0.9: 0.365; reference +-0.01 a0 -> +-0.017; total 0.025

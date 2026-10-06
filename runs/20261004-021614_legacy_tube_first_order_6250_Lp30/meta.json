@@ -1,0 +1,19 @@
+{
+ "id": "20261004-021614_legacy_tube_first_order_6250_Lp30",
+ "name": "legacy_tube_first_order_6250_Lp30",
+ "params": {},
+ "note": "benchmarks/tube_first_order.py, transverse box check; imported from results/ (before qs.runs); commit = last commit before the file time",
+ "command": null,
+ "git_commit": "69479e2cba034b5d6336f6e6e72ad77473d0cf4f",
+ "git_dirty": null,
+ "environment": null,
+ "start": "2026-10-04T02:16:14",
+ "end": "2026-10-04T02:16:14",
+ "wall_s": null,
+ "status": "finished",
+ "registered": "2026-10-04T13:54:07",
+ "sources": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_6250_Lp30.json",
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_6250_Lp30.log"
+ ]
+}

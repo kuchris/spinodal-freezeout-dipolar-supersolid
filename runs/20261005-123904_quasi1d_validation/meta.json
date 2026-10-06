@@ -1,0 +1,31 @@
+{
+ "id": "20261005-123904_quasi1d_validation",
+ "name": "quasi1d_validation",
+ "params": {
+  "steps": [
+   "ss88"
+  ]
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/quasi1d_validation.py",
+  "ss88"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "56620b5caf56b6baf6482056e00dc026f8bf523d",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-05T12:39:04",
+ "status": "finished",
+ "wall_s": 9.234816399984993,
+ "end": "2026-10-05T12:39:13"
+}

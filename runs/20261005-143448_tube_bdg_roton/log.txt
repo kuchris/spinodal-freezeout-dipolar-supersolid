@@ -1,0 +1,16 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261005-143448_tube_bdg_roton
+Traceback (most recent call last):
+  File "C:\Users\kyost\Desktop\git\qs\benchmarks\tube_bdg.py", line 184, in main
+    return {"sound": sound, "roton": roton, "smallq": smallq}[args.cmd](args, run)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\kyost\Desktop\git\qs\benchmarks\tube_bdg.py", line 92, in roton
+    w, _, _ = bogoliubov(model, psi, q=q, n_modes=1)
+              ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kyost\Desktop\git\qs\src\qs\bdg.py", line 184, in bogoliubov
+    lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kyost\Desktop\git\qs\src\qs\bdg.py", line 121, in _rayleigh_ritz
+    wB, VB = torch.linalg.eigh(GB)
+             ~~~~~~~~~~~~~~~~~^^^^
+torch._C._LinAlgError: linalg.eigh: The algorithm failed to converge because the input matrix is ill-conditioned or has too many repeated eigenvalues (error code: 1).
+

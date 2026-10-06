@@ -1,0 +1,8 @@
+1. harmonic 2D ground state: E/N = 1.000000000000 (reference 1, error 4.4e-16; 90 iterations)
+2. Kohn mode over one period: max |<x> - x0 cos t| / x0 = 1.9e-06 (reference: < 1e-4)
+3. uniform 1D Bogoliubov at q = 0.3: 0.30335623, 0.33271293, 1.02344490, 1.06043924
+   analytic:                          0.30335623, 0.33271293, 1.02344490, 1.06043924
+   max relative error 8.3e-15
+4. dipolar energy, cylinder cut-off 3249.5292153446 vs sphere 3249.5308282357 (relative difference 5.0e-07; reference < 1e-6)
+5. 164Dy tube, n = 2500/um, a_s = 91.0 a0, grid [48, 48, 17]: E/N = 5.31076494 hbar w, line contrast 0.9140 (135 iterations; reference: sample_run_expected.txt, modulated below a_rot* = 92.32 a0)
+total 3.1 s

@@ -1,0 +1,7 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261005-123934_quasi1d_validation
+[exact] n = 700: a_rot = 80.900 a0 (Blakie 2020: 81.2), widths at a_rot: l = 0.948 um, eta = 2.467 (0.7 s)
+[exact] n = 2500: a_rot = 91.024 a0 (Blakie 2020: None), widths at a_rot: l = 1.135 um, eta = 3.560 (0.5 s)
+[exact] n = 6250: a_rot = 87.219 a0 (Blakie 2020: 88.6), widths at a_rot: l = 1.077 um, eta = 6.699 (0.5 s)
+[closed] n = 700: a_rot = 81.221 a0 (Blakie 2020: 81.2), widths at a_rot: l = 0.951 um, eta = 2.456 (9.5 s)
+[closed] n = 2500: a_rot = 91.545 a0 (Blakie 2020: None), widths at a_rot: l = 1.150 um, eta = 3.466 (8.5 s)
+[closed] n = 6250: a_rot = 88.578 a0 (Blakie 2020: 88.6), widths at a_rot: l = 1.133 um, eta = 6.045 (10.0 s)

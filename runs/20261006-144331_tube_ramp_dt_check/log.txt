@@ -1,0 +1,7 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-144331_tube_ramp_dt_check
+tau_Q 20 ms, f_s < 0.98: median t_hat 8.925 -> 8.925 ms (+0.00%), largest per-realization change 0.00 ms (16 pairs)
+tau_Q 20 ms, f_s < 0.9: median t_hat 10.225 -> 10.225 ms (+0.00%), largest per-realization change 0.10 ms (16 pairs)
+tau_Q 20 ms, f_s < 0.7: median t_hat 10.925 -> 10.925 ms (+0.00%), largest per-realization change 0.00 ms (16 pairs)
+tau_Q 50 ms, f_s < 0.98: median t_hat 12.462 -> 12.462 ms (+0.00%), largest per-realization change 0.00 ms (16 pairs)
+tau_Q 50 ms, f_s < 0.9: median t_hat 14.162 -> 14.162 ms (+0.00%), largest per-realization change 0.10 ms (16 pairs)
+tau_Q 50 ms, f_s < 0.7: median t_hat 15.162 -> 15.162 ms (+0.00%), largest per-realization change 0.10 ms (16 pairs)

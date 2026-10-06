@@ -1,0 +1,8 @@
+[qs.runs] finished runs with the same name and parameters: 20261005-230923_tube_ramp_cutoff, 20261005-234317_tube_ramp_cutoff
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-000847_tube_ramp_cutoff
+quantum cutoff x0.7: t_hat = 9.025000000000126 ms (tau_Q 20), 15.524999999999906 ms (100); two-point zeta 0.337
+quantum cutoff x1: t_hat = 8.925000000000125 ms (tau_Q 20), 15.924999999999926 ms (100); two-point zeta 0.36
+quantum cutoff x1.3: t_hat = 9.125000000000128 ms (tau_Q 20), 15.824999999999932 ms (100); two-point zeta 0.342
+thermal cutoff x1 (20261005-211050_tube_ramp_3d): 12/16, Gamma = 0.108 +- 0.031 per um per s, roton power at the hold start 0.054
+thermal cutoff x0.7 (20261005-234029_tube_ramp_3d): 13/16, Gamma = 0.152 +- 0.042 per um per s, roton power at the hold start 0.029
+thermal cutoff x1.3 (20261005-235454_tube_ramp_3d): 13/16, Gamma = 0.142 +- 0.039 per um per s, roton power at the hold start 0.055

@@ -1,0 +1,26 @@
+{
+ "id": "20261005-230215_tube_ramp_nucleation",
+ "name": "tube_ramp_nucleation",
+ "params": {},
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_ramp_nucleation.py"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "0aef85cb6d06d05cd524b4646df658bc415a6450",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-05T23:02:15",
+ "status": "finished",
+ "wall_s": 0.2813514000736177,
+ "end": "2026-10-05T23:02:16"
+}

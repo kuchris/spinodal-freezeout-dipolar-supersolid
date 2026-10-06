@@ -1,0 +1,42 @@
+{
+ "id": "20261006-005533_tube_crystal_bdg",
+ "name": "tube_crystal_bdg",
+ "params": {
+  "a_list": "90.33,90.36,90.38,90.40",
+  "q_fracs": "0",
+  "n_modes": 4,
+  "density": 6250.0,
+  "cell_um": 2.76,
+  "cells": 32,
+  "dx": 0.25,
+  "L_perp": 24.0,
+  "tol": 0.0001,
+  "max_iter": 600,
+  "warm": false
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_crystal_bdg.py",
+  "--a-list",
+  "90.33,90.36,90.38,90.40",
+  "--q-fracs",
+  "0"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "502403e89a0a492e5bd7d5f5611cd27e67c97505",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-06T00:55:33",
+ "status": "finished",
+ "wall_s": 519.7079470999306,
+ "end": "2026-10-06T01:04:13"
+}

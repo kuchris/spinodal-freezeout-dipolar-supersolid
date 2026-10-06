@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dipgpe"
+version = "0.1.0"
+description = "Uniform-grid pseudo-spectral Gross-Pitaevskii solver"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dependencies = ["numpy>=2", "torch>=2.4"]
+
+[project.optional-dependencies]
+plot = ["matplotlib"]
+
+[dependency-groups]
+dev = ["pytest", "matplotlib"]
+
+# CUDA builds of torch come from the PyTorch index (PyPI only has CPU wheels for Windows).
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dipgpe = ["viewer/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["gpu: requires CUDA"]

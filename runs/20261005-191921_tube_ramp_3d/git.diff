@@ -1,0 +1,36 @@
+diff --git a/benchmarks/tube_ramp.py b/benchmarks/tube_ramp.py
+index 61a2285..ac691f4 100644
+--- a/benchmarks/tube_ramp.py
++++ b/benchmarks/tube_ramp.py
+@@ -139,6 +139,9 @@ def run_tau(args, tau_ms, run):
+     n_rec = round(t_end / rec)
+     dz = grid.dx[axis]
+     times, fs_all, c_all, g2_all, saved, g2_times, peaks = [], [], [], [], [], [], []
++    deep, fs_avg = [], []                       # thermal-robust order parameters
++    window = max(1, round(1.0 / args.record_ms))                    # 1 ms running average of n(z)
++    recent = []
+     t0 = time.time()
+     for r in range(n_rec + 1):
+         if r:
+@@ -149,6 +152,11 @@ def run_tau(args, tau_ms, run):
+         fs_all.append(fs.cpu())
+         c_all.append(c.cpu())
+         peaks.append(count_peaks(ln).cpu())
++        deep.append(count_peaks(ln, threshold=0.5).cpu())
++        recent.append(ln)
++        if len(recent) > window:
++            recent.pop(0)
++        fs_avg.append(observables(torch.stack(recent).mean(0), dz, L)[0].cpu())
+         if r % args.store_every == 0:
+             g2_times.append(stepper.t / MS)
+             g2_all.append((g2 / args.samples)[: ln.shape[-1] // 2].to(torch.float32).cpu())
+@@ -168,7 +176,8 @@ def run_tau(args, tau_ms, run):
+         cross = times[after[0]] - t_c if after else None
+     seconds = time.time() - t0
+     stem = f"tau_{tau_ms:g}ms"
+-    torch.save({"times_ms": times, "fs": fs_all, "contrast": c_all, "peaks": torch.stack(peaks), "g2": torch.stack(g2_all), "g2_times_ms": g2_times,
++    torch.save({"times_ms": times, "fs": fs_all, "contrast": c_all, "peaks": torch.stack(peaks),
++                "deep_peaks": torch.stack(deep), "fs_avg_1ms": torch.stack(fs_avg), "g2": torch.stack(g2_all), "g2_times_ms": g2_times,
+                 "line": torch.stack(saved), "dz_um": UNITS.microns(dz), "args": vars(args)}, run.data(stem + ".pt"))
+     res = {"tau_ms": tau_ms, "freeze_out_ms": cross, "t_c_ms": t_c, "samples": args.samples,
+            "noise_modes": info["modes"], "noise_added_fraction": info["mean_added_atoms"] / N,

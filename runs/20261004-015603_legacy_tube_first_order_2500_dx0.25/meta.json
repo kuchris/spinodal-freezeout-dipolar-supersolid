@@ -1,0 +1,19 @@
+{
+ "id": "20261004-015603_legacy_tube_first_order_2500_dx0.25",
+ "name": "legacy_tube_first_order_2500_dx0.25",
+ "params": {},
+ "note": "benchmarks/tube_first_order.py --density 2500; imported from results/ (before qs.runs); commit = last commit before the file time",
+ "command": null,
+ "git_commit": "7e88e34ed2bf9ea51b7cfa23a48599da30ccb2d7",
+ "git_dirty": null,
+ "environment": null,
+ "start": "2026-10-04T01:56:03",
+ "end": "2026-10-04T01:56:03",
+ "wall_s": null,
+ "status": "finished",
+ "registered": "2026-10-04T13:54:07",
+ "sources": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_2500_dx0.25.json",
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_first_order_2500.log"
+ ]
+}

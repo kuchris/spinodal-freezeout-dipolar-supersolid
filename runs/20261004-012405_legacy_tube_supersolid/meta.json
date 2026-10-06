@@ -1,0 +1,18 @@
+{
+ "id": "20261004-012405_legacy_tube_supersolid",
+ "name": "legacy_tube_supersolid",
+ "params": {},
+ "note": "tube gate rerun with the conjugate-gradient ground state; imported from results/ (before qs.runs); commit = last commit before the file time",
+ "command": null,
+ "git_commit": "5e027de007689958f5acfe75900544324c05e3a3",
+ "git_dirty": null,
+ "environment": null,
+ "start": "2026-10-04T01:24:05",
+ "end": "2026-10-04T01:24:05",
+ "wall_s": null,
+ "status": "finished",
+ "registered": "2026-10-04T13:54:06",
+ "sources": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\results\\tube_supersolid.json"
+ ]
+}

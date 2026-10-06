@@ -1,0 +1,58 @@
+diff --git a/benchmarks/tube_ramp.py b/benchmarks/tube_ramp.py
+index ae52c61..a19d543 100644
+--- a/benchmarks/tube_ramp.py
++++ b/benchmarks/tube_ramp.py
+@@ -116,7 +116,7 @@ def run_tau(args, tau_ms, run):
+     t_end = (args.equil_ms + tau_ms + args.hold_ms) * MS
+     n_rec = round(t_end / rec)
+     dz = grid.dx[axis]
+-    times, fs_all, c_all, g2_all, saved = [], [], [], [], []
++    times, fs_all, c_all, g2_all, saved, g2_times = [], [], [], [], [], []
+     t0 = time.time()
+     for r in range(n_rec + 1):
+         if r:
+@@ -126,8 +126,10 @@ def run_tau(args, tau_ms, run):
+         times.append(stepper.t / MS)
+         fs_all.append(fs.cpu())
+         c_all.append(c.cpu())
+-        g2_all.append((g2 / args.samples)[: ln.shape[-1] // 2].cpu())
+-        saved.append(ln[: args.save_samples].to(torch.float32).cpu())
++        if r % args.store_every == 0:
++            g2_times.append(stepper.t / MS)
++            g2_all.append((g2 / args.samples)[: ln.shape[-1] // 2].to(torch.float32).cpu())
++            saved.append(ln[: args.save_samples].to(torch.float32).cpu())
+         if r == 1:
+             per = (time.time() - t0) / sub
+             print(f"    {per * 1e3:.2f} ms per step ({args.samples} samples), {sub * n_rec} steps, "
+@@ -141,7 +143,7 @@ def run_tau(args, tau_ms, run):
+         cross = times[after[0]] - t_c if after else None
+     seconds = time.time() - t0
+     stem = f"tau_{tau_ms:g}ms"
+-    torch.save({"times_ms": times, "fs": fs_all, "contrast": c_all, "g2": torch.stack(g2_all),
++    torch.save({"times_ms": times, "fs": fs_all, "contrast": c_all, "g2": torch.stack(g2_all), "g2_times_ms": g2_times,
+                 "line": torch.stack(saved), "dz_um": UNITS.microns(dz), "args": vars(args)}, run.data(stem + ".pt"))
+     res = {"tau_ms": tau_ms, "freeze_out_ms": cross, "t_c_ms": t_c, "samples": args.samples,
+            "noise_modes": info["modes"], "noise_added_fraction": info["mean_added_atoms"] / N,
+@@ -178,6 +180,7 @@ def main():
+     p.add_argument("--record-ms", type=float, default=0.5)
+     p.add_argument("--dt-safety", type=float, default=0.9)
+     p.add_argument("--save-samples", type=int, default=4)
++    p.add_argument("--store-every", type=int, default=1, help="store g2 and line densities every n records")
+     p.add_argument("--complex64", action="store_true")
+     args = p.parse_args()
+     if args.dx is None:
+diff --git a/benchmarks/tube_ramp_analysis.py b/benchmarks/tube_ramp_analysis.py
+index 65290b5..5bbd2de 100644
+--- a/benchmarks/tube_ramp_analysis.py
++++ b/benchmarks/tube_ramp_analysis.py
+@@ -74,7 +74,9 @@ def main():
+                 print(f"{d.name} tau {tau:g}: no freeze-out")
+                 continue
+             i = idx[0]
+-            g2 = D["g2"][i].to(torch.float64)
++            g2_times = D.get("g2_times_ms", D["times_ms"])          # g2 may be stored less often
++            j = min(range(len(g2_times)), key=lambda q: abs(g2_times[q] - float(times[i])))
++            g2 = D["g2"][j].to(torch.float64)
+             dz = torch.arange(len(g2), dtype=torch.float64) * D["dz_um"]
+             m = dz <= args.fit_um
+             cell = a["cell_um"]

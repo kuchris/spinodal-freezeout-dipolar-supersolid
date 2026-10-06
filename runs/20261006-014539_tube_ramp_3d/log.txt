@@ -1,0 +1,4 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-014539_tube_ramp_3d
+  crystal cell at 88.5 a0: line contrast 0.924
+    78.64 ms per step (16 samples), 23000 steps, estimated 1809 s
+  tau_Q = 200 ms: freeze-out 9.3 ms after t_c, final <f_s> = 0.958, noise adds 0.01% (1009 s)

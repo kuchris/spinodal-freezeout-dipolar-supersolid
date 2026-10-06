@@ -1,0 +1,47 @@
+{
+ "id": "20261004-143809_tube_bdg_roton",
+ "name": "tube_bdg_roton",
+ "params": {
+  "cmd": "roton",
+  "a_list": "92.4,92.5,92.6",
+  "dx": 0.25,
+  "q_min": 1.38,
+  "q_max": 1.5,
+  "q_step": 0.02
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_bdg.py",
+  "roton",
+  "--q-min",
+  "1.38",
+  "--q-max",
+  "1.50",
+  "--q-step",
+  "0.02"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "117777517ae4a35a7e507853a7d8fa53728813f7",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-04T14:38:09",
+ "status": "finished",
+ "wall_s": 168.2164569000015,
+ "end": "2026-10-04T14:40:57",
+ "notes": [
+  {
+   "note": "INVALID: tube kernel at Bloch-shifted kz was wrong (ISSUES BD-3); rerun after the fix",
+   "invalid": true,
+   "time": "2026-10-04T14:47:54"
+  }
+ ]
+}

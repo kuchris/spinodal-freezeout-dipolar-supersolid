@@ -1,0 +1,13 @@
+diff --git a/benchmarks/tube_ramp_figures.py b/benchmarks/tube_ramp_figures.py
+index 7d14d42..d9b6513 100644
+--- a/benchmarks/tube_ramp_figures.py
++++ b/benchmarks/tube_ramp_figures.py
+@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1] / "runs"
+ SPINODAL = {700: 84.506, 2500: 92.314, 6250: 89.845}       # a_rot* on the dynamical grid
+ A_STAR = {700: 85.28, 2500: 92.314, 6250: 90.256}
+ BRANCH_END = {6250: 90.39}
+-FORWARD = {2500: ["20261005-140819"], 6250: ["20261005-132617", "20261005-133951"],
++FORWARD = {2500: ["20261005-140819", "20261006-012712"], 6250: ["20261005-132617", "20261005-133951"],
+            700: ["20261005-145757", "20261005-151305", "20261005-152429", "20261005-171904"]}
+ REVERSE = {6250: ["20261005-155046"]}
+ COLORS = {700: "#c0504d", 2500: "#4f81bd", 6250: "#9bbb59"}

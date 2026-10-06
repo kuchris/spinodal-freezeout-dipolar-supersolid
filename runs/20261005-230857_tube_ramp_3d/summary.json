@@ -1,0 +1,32 @@
+[
+ {
+  "tau_ms": 20.0,
+  "freeze_out_ms": 8.925000000000125,
+  "t_c_ms": 20.775000000000006,
+  "samples": 16,
+  "noise_modes": 104,
+  "noise_added_fraction": 9.420289855072466e-05,
+  "dt": 0.00942477796076938,
+  "steps": 5000,
+  "seconds": 256.4381637573242,
+  "final_mean_fs": 0.27625528187251075,
+  "final_mean_contrast": 0.9819478073815123,
+  "final_mean_peaks": 34.0,
+  "ground_state_cells": 32
+ },
+ {
+  "tau_ms": 100.0,
+  "freeze_out_ms": 15.524999999999906,
+  "t_c_ms": 63.87500000000003,
+  "samples": 16,
+  "noise_modes": 104,
+  "noise_added_fraction": 9.420289855072466e-05,
+  "dt": 0.00942477796076938,
+  "steps": 13000,
+  "seconds": 682.298700094223,
+  "final_mean_fs": 0.2750673861640249,
+  "final_mean_contrast": 0.9740802776978701,
+  "final_mean_peaks": 33.5625,
+  "ground_state_cells": 32
+ }
+]

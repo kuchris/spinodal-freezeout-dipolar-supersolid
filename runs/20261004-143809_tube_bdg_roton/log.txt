@@ -1,0 +1,5 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261004-143809_tube_bdg_roton
+a_s = 92.4: omega_rot = 1.056516 at k = 1.3800 (wavelength 4.553 l)
+a_s = 92.5: omega_rot = 1.064817 at k = 1.3800 (wavelength 4.553 l)
+a_s = 92.6: omega_rot = 1.072983 at k = 1.3800 (wavelength 4.553 l)
+omega_rot^2 linear in a_s -> zero at a_rot* = 86.0335 a0 (softening rate: 92.32 a0)

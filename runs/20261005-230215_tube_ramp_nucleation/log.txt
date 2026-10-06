@@ -1,0 +1,36 @@
+[qs.runs] finished runs with the same name and parameters: 20261005-221441_tube_ramp_nucleation, 20261005-223026_tube_ramp_nucleation, 20261005-225942_tube_ramp_nucleation
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261005-230215_tube_ramp_nucleation
+20261005-180330_tube_ramp_3d: a_s 90.05, T 5 nK, 6/8 nucleated, Gamma = 0.121 +- 0.049 per um per s (loose count, from 92 a0, roton power at the hold start 0.051)
+20261005-181821_tube_ramp_3d: a_s 89.95, T 5 nK, 8/8 nucleated, Gamma = 0.447 +- 0.16 per um per s (loose count, from 92 a0, roton power at the hold start 0.057)
+20261005-182509_tube_ramp_3d: a_s 90.15, T 5 nK, 4/8 nucleated, Gamma = 0.0588 +- 0.029 per um per s (loose count, from 92 a0, roton power at the hold start 0.046)
+20261005-183155_tube_ramp_3d: a_s 90.25, T 5 nK, 3/8 nucleated, Gamma = 0.0425 +- 0.025 per um per s (loose count, from 92 a0, roton power at the hold start 0.043)
+20261005-191921_tube_ramp_3d: a_s 90.05, T 2.5 nK, 5/8 nucleated, Gamma = 0.0651 +- 0.029 per um per s (deep count, from 92 a0, roton power at the hold start 0.002)
+20261005-192559_tube_ramp_3d: a_s 90.05, T 10 nK, 8/8 nucleated, Gamma = 0.63 +- 0.22 per um per s (deep count, from 92 a0, roton power at the hold start 1.330)
+20261005-205640_tube_ramp_3d: a_s 89.95, T 5 nK, 16/16 nucleated, Gamma = 0.318 +- 0.08 per um per s (deep count, from 92 a0, roton power at the hold start 0.064)
+20261005-211050_tube_ramp_3d: a_s 90.05, T 5 nK, 12/16 nucleated, Gamma = 0.108 +- 0.031 per um per s (deep count, from 92 a0, roton power at the hold start 0.054)
+20261005-212444_tube_ramp_3d: a_s 90.15, T 5 nK, 6/16 nucleated, Gamma = 0.039 +- 0.016 per um per s (deep count, from 92 a0, roton power at the hold start 0.047)
+20261005-213927_tube_ramp_3d: a_s 90.05, T 2.5 nK, 5/16 nucleated, Gamma = 0.0275 +- 0.012 per um per s (deep count, from 92 a0, roton power at the hold start 0.002)
+20261005-215509_tube_ramp_3d: a_s 90.05, T 10 nK, 16/16 nucleated, Gamma = 0.476 +- 0.12 per um per s (deep count, from 92 a0, roton power at the hold start 0.475)
+20261005-224452_tube_ramp_3d: a_s 90.05, T 5 nK, 10/16 nucleated, Gamma = 0.0793 +- 0.025 per um per s (deep count, from 90.5 a0, roton power at the hold start 0.111)
+pooled a_s 89.95, T 5 nK (loose, cutoff x1, from 92 a0): 8/8, Gamma = 0.447 +- 0.16; with lag 0.2 ms: 0.451 +- 0.16 per um per s; median t1 18.18536585365859
+pooled a_s 89.95, T 5 nK (deep, cutoff x1, from 92 a0): 16/16, Gamma = 0.318 +- 0.08; with lag 7.6 ms: 0.405 +- 0.1 per um per s; median t1 30.585365853658757
+pooled a_s 90.05, T 2.5 nK (deep, cutoff x1, from 92 a0): 10/24, Gamma = 0.0386 +- 0.012; with lag 43.5 ms: 0.06 +- 0.019 per um per s; median t1 88.71282051281972
+pooled a_s 90.05, T 5 nK (loose, cutoff x1, from 92 a0): 6/8, Gamma = 0.121 +- 0.049; with lag 0.1 ms: 0.121 +- 0.05 per um per s; median t1 21.91282051282068
+pooled a_s 90.05, T 5 nK (deep, cutoff x1, from 90.5 a0): 10/16, Gamma = 0.0793 +- 0.025; with lag 14.2 ms: 0.0942 +- 0.03 per um per s; median t1 23.355555555555696
+pooled a_s 90.05, T 5 nK (deep, cutoff x1, from 92 a0): 12/16, Gamma = 0.108 +- 0.031; with lag 7.9 ms: 0.12 +- 0.035 per um per s; median t1 41.712820512820876
+pooled a_s 90.05, T 10 nK (deep, cutoff x1, from 92 a0): 24/24, Gamma = 0.518 +- 0.11; with lag 2.3 ms: 0.58 +- 0.12 per um per s; median t1 11.312820512820537
+pooled a_s 90.15, T 5 nK (loose, cutoff x1, from 92 a0): 4/8, Gamma = 0.0588 +- 0.029; with lag 1.3 ms: 0.0596 +- 0.03 per um per s; median t1 35.745945945946225
+pooled a_s 90.15, T 5 nK (deep, cutoff x1, from 92 a0): 6/16, Gamma = 0.039 +- 0.016; with lag 9.3 ms: 0.0427 +- 0.017 per um per s; median t1 16.14594594594596
+pooled a_s 90.25, T 5 nK (loose, cutoff x1, from 92 a0): 3/8, Gamma = 0.0425 +- 0.025; with lag 0.1 ms: 0.0425 +- 0.025 per um per s; median t1 8.468571428571416
+5 nK ramp tau_Q = 20 ms: expected nuclei in the window 0.03, P(nucleation before the spinodal) = 0.03
+5 nK ramp tau_Q = 50 ms: expected nuclei in the window 0.07, P(nucleation before the spinodal) = 0.07
+5 nK ramp tau_Q = 100 ms: expected nuclei in the window 0.14, P(nucleation before the spinodal) = 0.13
+5 nK ramp tau_Q = 200 ms: expected nuclei in the window 0.28, P(nucleation before the spinodal) = 0.25
+5 nK ramp tau_Q = 400 ms: expected nuclei in the window 0.57, P(nucleation before the spinodal) = 0.43
+5 nK ramp tau_Q = 800 ms: expected nuclei in the window 1.13, P(nucleation before the spinodal) = 0.68
+crossover (P = 1/2) at tau_Q = 489 ms
+ramp 20261005-175324_tube_ramp_3d 92 -> 88 a0 in 100 ms (tau_Q-equivalent 100 ms, loose): droplet before the spinodal in 2/8; predicted P = 0.13; roton power at a* 0.854
+ramp 20261005-175324_tube_ramp_3d 92 -> 88 a0 in 50 ms (tau_Q-equivalent 50 ms, loose): droplet before the spinodal in 0/8; predicted P = 0.07; roton power at a* 0.037
+ramp 20261005-221252_tube_ramp_3d 90.5 -> 89.6 a0 in 45 ms (tau_Q-equivalent 200 ms, deep): droplet before the spinodal in 11/16; predicted P = 0.25; roton power at a* 0.105
+ramp 20261005-221252_tube_ramp_3d 90.5 -> 89.6 a0 in 90 ms (tau_Q-equivalent 400 ms, deep): droplet before the spinodal in 10/16; predicted P = 0.43; roton power at a* 0.227
+ramp 20261005-223121_tube_ramp_3d 92 -> 89.6 a0 in 120 ms (tau_Q-equivalent 200 ms, deep): droplet before the spinodal in 1/16; predicted P = 0.25; roton power at a* 0.039

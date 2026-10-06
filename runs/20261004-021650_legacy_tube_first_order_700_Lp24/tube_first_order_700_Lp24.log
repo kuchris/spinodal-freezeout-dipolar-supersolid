@@ -1,0 +1,20 @@
+n = 700/um, dx = 0.25, L_perp = 24.0, a_rot* = 84.5 a0; uniform states 9 s
+  L = 24.00  a_s = 85.000: dE = -2.2559e-03  C = 0.926 (axis 0.941)  droplets 1  (293 it, 1.8 s)
+  L = 24.00  a_s = 85.025: dE = -1.7802e-03  C = 0.924 (axis 0.939)  droplets 1  (180 it, 1.1 s)
+  L = 24.00  a_s = 85.050: dE = -1.3182e-03  C = 0.921 (axis 0.937)  droplets 1  (192 it, 1.1 s)
+  L = 24.00  a_s = 85.075: dE = -8.7003e-04  C = 0.918 (axis 0.935)  droplets 1  (193 it, 1.1 s)
+  L = 24.00  a_s = 85.100: dE = -4.3597e-04  C = 0.915 (axis 0.933)  droplets 1  (195 it, 1.1 s)
+  L = 24.00  a_s = 85.125: dE = -1.6270e-05  C = 0.912 (axis 0.930)  droplets 1  (198 it, 1.1 s)
+  L = 24.00  a_s = 85.150: dE = +3.8873e-04  C = 0.908 (axis 0.928)  droplets 1  (204 it, 1.2 s)
+  L = 24.00  a_s = 85.175: dE = +7.7863e-04  C = 0.904 (axis 0.925)  droplets 1  (209 it, 1.2 s)
+  L = 24.00  a_s = 85.200: dE = +1.1529e-03  C = 0.900 (axis 0.922)  droplets 1  (215 it, 1.3 s)
+  L = 24.00  a_s = 85.225: dE = +1.5108e-03  C = 0.895 (axis 0.918)  droplets 1  (221 it, 1.3 s)
+  L = 24.00  a_s = 85.250: dE = +1.8515e-03  C = 0.889 (axis 0.914)  droplets 1  (228 it, 1.3 s)
+  L = 24.00  a_s = 85.275: dE = +2.1736e-03  C = 0.883 (axis 0.908)  droplets 1  (234 it, 1.4 s)
+  L = 24.00  a_s = 85.300: dE = +2.4749e-03  C = 0.874 (axis 0.902)  droplets 1  (260 it, 1.5 s)
+  L = 24.00  a_s = 85.325: dE = +2.7516e-03  C = 0.862 (axis 0.892)  droplets 1  (318 it, 1.9 s)
+  L = 24.00  a_s = 85.350: dE = +2.4425e-14  C = 0.000 (axis 0.000)  droplets 0  (477 it, 2.8 s)
+L = 24.0 (15.38 um): crossing a* = 85.12600429227228, C(a*) = 0.9116464559693116, droplets/cell 1, branch end in [85.325, 85.35]
+
+n = 700/um (crossing, 1 droplet(s) per cell): a* = 85.126 a0 at L = 24.0 l (15.38 um), a* - a_rot* = +0.626 a0, C(a*) = 0.912, crystal branch ends in [85.325, 85.35] a0 (33 s)
+wrote results\tube_first_order_700_Lp24.json

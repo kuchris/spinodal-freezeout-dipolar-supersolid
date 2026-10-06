@@ -1,0 +1,52 @@
+{
+ "id": "20261006-133351_tube_states",
+ "name": "tube_states",
+ "params": {
+  "states": [
+   [
+    "uniform",
+    6250.0,
+    2.76,
+    92.0,
+    false
+   ],
+   [
+    "supersolid",
+    6250.0,
+    2.76,
+    89.5,
+    true
+   ],
+   [
+    "droplets",
+    700.0,
+    3.2,
+    83.0,
+    true
+   ]
+  ],
+  "dx": 0.25,
+  "L_perp": 24.0
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_states.py"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "f6b4e9cc1f95f30b30294edf2817700307932ac5",
+ "git_dirty": false,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-06T13:33:51",
+ "status": "finished",
+ "wall_s": 3.7198617999674752,
+ "end": "2026-10-06T13:33:55"
+}

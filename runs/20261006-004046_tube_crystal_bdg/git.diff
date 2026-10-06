@@ -1,0 +1,54 @@
+diff --git a/benchmarks/tube_crystal_bdg.py b/benchmarks/tube_crystal_bdg.py
+index 42a94f9..56d17e4 100644
+--- a/benchmarks/tube_crystal_bdg.py
++++ b/benchmarks/tube_crystal_bdg.py
+@@ -51,6 +51,8 @@ def main():
+     p.add_argument("--L-perp", type=float, default=24.0)
+     p.add_argument("--tol", type=float, default=1e-4, help="relative residual (frequencies to ~tol^2)")
+     p.add_argument("--max-iter", type=int, default=600)
++    p.add_argument("--warm", action="store_true",
++                   help="warm-start each a_s from the previous modes (slower here and can be ill-conditioned)")
+     args = p.parse_args()
+     um = UNITS.microns(1.0)
+     L = args.cells * args.cell_um / um
+@@ -83,7 +85,7 @@ def main():
+             for f in fracs:
+                 t0 = time.time()
+                 w, _, binfo = bogoliubov(model, psi, q=f * math.pi / Lc, n_modes=args.n_modes, tol=args.tol,
+-                                         max_iter=args.max_iter, x0=warm.get(f))
++                                         max_iter=args.max_iter, x0=warm.get(f) if args.warm else None)
+                 warm[f] = binfo["g"]                                   # warm start for the next a_s
+                 row["bands"][str(f)] = w.tolist()
+                 row.setdefault("iterations", {})[str(f)] = binfo["iterations"]
+diff --git a/src/qs/bdg.py b/src/qs/bdg.py
+index 3fb1c19..f19a71e 100644
+--- a/src/qs/bdg.py
++++ b/src/qs/bdg.py
+@@ -118,7 +118,11 @@ def _rayleigh_ritz(grid, S, AS, BS, m):
+     """Lowest m Ritz pairs of (S^H A S, S^H B S), dropping near-dependent directions."""
+     GA, GB = _inner(grid, S, AS), _inner(grid, S, BS)
+     GA, GB = 0.5 * (GA + GA.conj().T), 0.5 * (GB + GB.conj().T)
+-    wB, VB = torch.linalg.eigh(GB)
++    try:
++        wB, VB = torch.linalg.eigh(GB)
++    except torch.linalg.LinAlgError:                     # nearly dependent block: regularize the Gram matrix
++        eps = 1e-13 * float(GB.diagonal().real.abs().max())
++        wB, VB = torch.linalg.eigh(GB + eps * torch.eye(GB.shape[0], dtype=GB.dtype, device=GB.device))
+     keep = wB > 1e-12 * wB.max()
+     T = VB[:, keep] / torch.sqrt(wB[keep])
+     w, Y = torch.linalg.eigh(T.conj().T @ GA @ T)
+@@ -181,7 +185,13 @@ def bogoliubov(model, psi0, q=0.0, n_modes=6, axis=-1, tol=1e-6, max_iter=1000,
+         norms = torch.sqrt(_inner(grid, S, BS).diagonal().real.clamp_min(1e-300))
+         sc = (1 / norms).to(S.dtype).reshape(-1, *([1] * grid.ndim))
+         S, AS, BS = S * sc, AS * sc, BS * sc
+-        lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
++        try:
++            lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
++        except torch.linalg.LinAlgError:
++            if P is None:
++                raise
++            P = AP = BP = None                           # ill-conditioned with P: restart without it
++            continue
+         if float(lam_new.real.min()) < -1e-8 * float(lam_new.real.abs().max()) and P is not None:
+             P = AP = BP = None                           # loss of positivity: restart without P
+             continue

@@ -1,0 +1,11 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261005-124828_tube_ramp_1d
+    0.99 ms per step (32 samples), 13200 steps, estimated 13 s
+  tau_Q = 10 ms: freeze-out 4.312 ms after t_c, final <f_s> = 0.378, noise adds 0.02% (9 s)
+    0.68 ms per step (32 samples), 21120 steps, estimated 14 s
+  tau_Q = 20 ms: freeze-out 5.125 ms after t_c, final <f_s> = 0.302, noise adds 0.02% (14 s)
+    0.68 ms per step (32 samples), 44880 steps, estimated 31 s
+  tau_Q = 50 ms: freeze-out 7.063 ms after t_c, final <f_s> = 0.338, noise adds 0.02% (30 s)
+    0.68 ms per step (32 samples), 84480 steps, estimated 57 s
+  tau_Q = 100 ms: freeze-out 8.625 ms after t_c, final <f_s> = 0.340, noise adds 0.02% (56 s)
+    0.68 ms per step (32 samples), 163680 steps, estimated 111 s
+  tau_Q = 200 ms: freeze-out 10.75 ms after t_c, final <f_s> = 0.350, noise adds 0.02% (109 s)

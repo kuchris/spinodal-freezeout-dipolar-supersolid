@@ -1,0 +1,6 @@
+[qs.runs] finished runs with the same name and parameters: 20261006-025952_tube_ramp_errors
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-142523_tube_ramp_errors
+6250 forward: zeta(0.98) = 0.3633 over tau [20.0, 50.0, 100.0, 200.0] (all points 0.342); bootstrap 0.0074; thresholds over [50.0, 100.0, 200.0]: 0.99: 0.371, 0.98: 0.364, 0.95: 0.356, 0.9: 0.351; reference +-0.01 a0 -> +-0.0080; window 0.0010; total 0.0211
+2500 forward: zeta(0.98) = 0.3635 over tau [10.0, 20.0, 50.0, 100.0, 200.0] (all points 0.364); bootstrap 0.0064; thresholds over [20.0, 50.0, 100.0, 200.0]: 0.99: 0.357, 0.98: 0.357, 0.95: 0.360, 0.9: 0.366; reference +-0.01 a0 -> +-0.0047; window 0.0061; total 0.0186
+700 forward: zeta(0.98) = 0.2209 over tau [50.0, 100.0, 200.0, 300.0, 400.0] (all points 0.262); bootstrap 0.0260; thresholds over [50.0, 100.0, 200.0, 300.0, 400.0]: 0.99: 0.211, 0.98: 0.221, 0.95: 0.231, 0.9: 0.237; reference +-0.01 a0 -> +-0.0209; window 0.0000; total 0.0389
+6250 reverse: zeta(0.98) = 0.3505 over tau [10.0, 20.0, 50.0, 100.0, 200.0] (all points 0.351); bootstrap 0.0016; thresholds over [10.0, 20.0, 50.0, 100.0, 200.0]: 0.99: 0.346, 0.98: 0.351, 0.95: 0.364, 0.9: 0.365; reference +-0.01 a0 -> +-0.0168; window 0.0000; total 0.0245

@@ -1,0 +1,94 @@
+diff --git a/benchmarks/tube_ramp.py b/benchmarks/tube_ramp.py
+index ac691f4..cda2a8a 100644
+--- a/benchmarks/tube_ramp.py
++++ b/benchmarks/tube_ramp.py
+@@ -123,10 +123,11 @@ def run_tau(args, tau_ms, run):
+     n_mu = None
+     if args.noise == "thermal":
+         kT = KB * args.T_nK * 1e-9 / (HBAR * UNITS.omega)
+-        noise, info = wigner_noise(grid, kT, axis=axis, samples=args.samples, seed=args.seed + int(tau_ms * 1000))
++        noise, info = wigner_noise(grid, kT, axis=axis, cutoff=2 * kT * args.noise_cutoff, samples=args.samples,
++                                   seed=args.seed + int(tau_ms * 1000))
+     else:                    # quantum: |k| < 1/xi, xi = 1/sqrt(mu) (3D: mu minus the transverse zero point)
+         n_mu = float(qs.chemical_potential(model, psi0, 0.0)) - (1.0 if args.model == "3d" else 0.0)
+-        noise, info = wigner_noise(grid, 0.0, axis=axis, k_max=math.sqrt(abs(n_mu)), samples=args.samples,
++        noise, info = wigner_noise(grid, 0.0, axis=axis, k_max=math.sqrt(abs(n_mu)) * args.noise_cutoff, samples=args.samples,
+                                    seed=args.seed + int(tau_ms * 1000))
+     N = UNITS.per_micron(args.density) * L
+     psi = psi0.unsqueeze(0) + noise
+@@ -208,6 +209,8 @@ def main():
+     p.add_argument("--kernel", choices=["exact", "closed"], default="closed")
+     p.add_argument("--noise", choices=["quantum", "thermal"], default="quantum")
+     p.add_argument("--T-nK", type=float, default=20.0)
++    p.add_argument("--noise-cutoff", type=float, default=1.0,
++                   help="scale the noise cutoff: thermal energy cutoff 2 kT, quantum k_max 1/xi (sensitivity tests)")
+     p.add_argument("--samples", type=int, default=32)
+     p.add_argument("--seed", type=int, default=0)
+     p.add_argument("--equil-ms", type=float, default=10.0)
+diff --git a/benchmarks/tube_ramp_figures.py b/benchmarks/tube_ramp_figures.py
+index 78db4de..58d1ec7 100644
+--- a/benchmarks/tube_ramp_figures.py
++++ b/benchmarks/tube_ramp_figures.py
+@@ -209,13 +209,16 @@ def fig_droplets(run):
+ 
+ def fig_schematic(run):
+     """(a) E_crystal - E_uniform per atom vs a_s at 6250/um (static ground states,
+-    cell 4.3 l, run 20261004-021532), with the spinodals and a*; (b) protocol."""
++    cell 4.3 l, run 20261004-021532), with the spinodals and a*; (b) protocol;
++    (c) the two routes in a schematic Landau energy F(C) = r C^2 - C^3 + C^4 of the
++    crystal amplitude C: r = 0 is the uniform spinodal, r = 1/4 is a* and
++    r = 9/32 the end of the crystal branch (r plays the role of a_s - a_rot*)."""
+     D = json.loads(next(ROOT.glob("20261004-021532_*")).joinpath("tube_first_order_6250_refine2.json")
+                    .read_text(encoding="utf-8"))
+     cell = min(D["cells"], key=lambda c: abs(c["L"] - 4.3))
+     rows = sorted(cell["rows"], key=lambda r: r["a_s"])
+     crys = [(r["a_s"], r["dE"]) for r in rows if r.get("C_line", 1) > 0.05]
+-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(9, 3.4))
++    fig, (a1, a2, a3) = plt.subplots(1, 3, figsize=(13, 3.4), gridspec_kw={"width_ratios": [1.1, 1, 0.9]})
+     a1.plot([c[0] for c in crys], [1e3 * c[1] for c in crys], "o-", color=COLORS[6250], ms=3, label="crystal")
+     a1.axhline(0, color="k", lw=1, label="uniform superfluid")
+     a1.axvspan(SPINODAL[6250], BRANCH_END[6250], color="gold", alpha=0.25, label="metastable window")
+@@ -227,16 +230,40 @@ def fig_schematic(run):
+     a1.set_ylabel("E_crystal − E_uniform (10⁻³ ħω per atom)")
+     a1.set_title("(a) 6250/µm: first-order transition", fontsize=8)
+     a1.legend(fontsize=6, loc="upper left")
+-    t = [0, 10, 60, 80]
++    t = [0, 10, 60, 70]
+     a2.plot(t, [92, 92, 88, 88], "-", color="tab:blue", label="forward ramp (superfluid → crystal)")
+     a2.plot(t, [88.5, 88.5, 92, 92], "--", color="tab:orange", label="reverse ramp (crystal → superfluid)")
+     a2.plot([0, 10, 30, 180], [92, 92, 90.05, 90.05], ":", color="tab:green", label="hold inside the window")
+     a2.axhspan(SPINODAL[6250], BRANCH_END[6250], color="gold", alpha=0.25)
+-    a2.set_xlim(0, 100)
++    a2.set_xlim(0, 130)
+     a2.set_xlabel("time t (ms)  [equilibration 10 ms, ramp over τ_Q, then hold]")
+     a2.set_ylabel("a_s(t) (a0)")
+     a2.set_title("(b) protocols (truncated-Wigner noise at t = 0)", fontsize=8)
+-    a2.legend(fontsize=6)
++    a2.legend(fontsize=6, loc="lower right")
++    C = torch.linspace(0, 0.85, 300)
++    curves = [(0.27, "above a*: crystal metastable", "tab:gray", "--"),
++              (0.25, "a*: equal energies", "k", "-"),
++              (0.2, "inside the window: superfluid metastable", "tab:blue", "-"),
++              (0.0, "a_rot*: barrier vanishes (spinodal)", "tab:red", "-")]
++    for r, lab, col, ls in curves:
++        a3.plot(C, 1e2 * (r * C ** 2 - C ** 3 + C ** 4), ls=ls, color=col, lw=1.2, label=lab)
++    r = 0.2                                                                     # window curve
++    cb = (3 - (9 - 32 * r) ** 0.5) / 8                                          # barrier top
++    F = lambda c: 1e2 * (r * c ** 2 - c ** 3 + c ** 4)  # noqa: E731
++    a3.plot([0], [0], "o", color="tab:blue", ms=5)
++    a3.annotate("", xy=(cb + 0.12, F(cb) + 0.05), xytext=(0.02, 0.12),
++                arrowprops=dict(arrowstyle="->", color="tab:blue", connectionstyle="arc3,rad=-0.35"))
++    a3.text(0.02, 0.6, "route 1: thermal\nnucleation over\nthe barrier (rate Γ)", fontsize=6, color="tab:blue")
++    a3.annotate("", xy=(0.27, 1e2 * (-0.27 ** 3 + 0.27 ** 4)), xytext=(0.04, -0.15),             # down the r = 0 curve
++                arrowprops=dict(arrowstyle="->", color="tab:red"))
++    a3.text(0.36, -2.15, "route 2: survive to the spinodal,\nroton grows (KZ-like freeze-out)", fontsize=6,
++            color="tab:red")
++    a3.set_ylim(-2.3, 1.1)
++    a3.set_xlim(0, 1.45)
++    a3.set_xlabel("crystal amplitude C (schematic)")
++    a3.set_ylabel("energy F(C) (arb. units)")
++    a3.set_title("(c) two routes to the crystal", fontsize=8)
++    a3.legend(fontsize=5.5, loc="upper right")
+     fig.tight_layout()
+     fig.savefig(run.file("fig_schematic.png"), dpi=200)
+ 

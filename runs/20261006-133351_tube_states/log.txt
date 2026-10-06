@@ -1,0 +1,4 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-133351_tube_states
+uniform: 6250/um, a_s = 92.0 a0, cell 2.76 um, contrast 0.000, Leggett f_s 1.000 (189 iterations)
+supersolid: 6250/um, a_s = 89.5 a0, cell 2.76 um, contrast 0.856, Leggett f_s 0.469 (213 iterations)
+droplets: 700/um, a_s = 83.0 a0, cell 3.2 um, contrast 0.972, Leggett f_s 0.162 (124 iterations)

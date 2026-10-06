@@ -1,0 +1,112 @@
+diff --git a/benchmarks/tube_ramp_figures.py b/benchmarks/tube_ramp_figures.py
+index f4ef4aa..25af0a3 100644
+--- a/benchmarks/tube_ramp_figures.py
++++ b/benchmarks/tube_ramp_figures.py
+@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt  # noqa: E402
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ sys.path.insert(0, str(Path(__file__).resolve().parent))
+ from dipgpe import runs  # noqa: E402
++from c1_data import load_states, load_tau_files  # noqa: E402
+ 
+ ROOT = Path(__file__).resolve().parents[1] / "runs"
+ SPINODAL = {700: 84.506, 2500: 92.314, 6250: 89.845}       # a_rot* on the dynamical grid
+@@ -42,11 +43,8 @@ def save(fig, run, stem):
+ 
+ 
+ def load(run_id):
+-    d = next(ROOT.glob(run_id + "_tube_ramp_3d"))
+-    out = {}
+-    for f in sorted((d / "data").glob("tau_*ms.pt")):
+-        out[float(f.stem[4:-2])] = torch.load(f)
+-    return out
++    """{tau: observables} from the run record or the reduced archive (c1_data)."""
++    return load_tau_files(next(ROOT.glob(run_id + "_tube_ramp_3d")))
+ 
+ 
+ def pooled(ids):
+@@ -320,9 +318,11 @@ def holds():
+         p = meta.get("params", {})
+         if p.get("a_c") == 0 and p.get("density") == 6250 and meta.get("status") == "finished" \
+                 and p.get("a_i") == 92.0 and p.get("noise_cutoff", 1.0) == 1.0:
+-            f = next((d / "data").glob("tau_*ms.pt"), None)
+-            if f is not None:
+-                D = torch.load(f)
++            try:
++                D = next(iter(load_tau_files(d).values()))
++            except (FileNotFoundError, StopIteration):
++                D = None
++            if D is not None:
+                 key = (p["a_f"], p["noise"], p.get("T_nK") if p["noise"] == "thermal" else None)
+                 if key not in best or D["peaks"].shape[1] > best[key][1]["peaks"].shape[1]:
+                     best[key] = (p, D)
+@@ -434,7 +434,7 @@ def fig_droplets(run):
+ 
+ def latest_states():
+     d = sorted(ROOT.glob("*_tube_states"))[-1]
+-    return torch.load(d / "data" / "states.pt"), d.name
++    return load_states(d), d.name
+ 
+ 
+ def fig_schematic(run):
+diff --git a/benchmarks/tube_ramp_nucleation.py b/benchmarks/tube_ramp_nucleation.py
+index c4ff2a3..dd5f4c3 100644
+--- a/benchmarks/tube_ramp_nucleation.py
++++ b/benchmarks/tube_ramp_nucleation.py
+@@ -35,6 +35,8 @@ import matplotlib.pyplot as plt  # noqa: E402
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ from dipgpe import runs  # noqa: E402
++sys.path.insert(0, str(Path(__file__).resolve().parent))
++from c1_data import load_tau_files  # noqa: E402
+ 
+ ROOT = Path(__file__).resolve().parents[1] / "runs"
+ A_STAR, A_ROT = 90.256, 89.845
+@@ -53,9 +55,11 @@ def holds():
+         p = meta.get("params", {})
+         if p.get("a_c") == 0 and p.get("density") == 6250 and p.get("noise") == "thermal" \
+                 and meta.get("status") == "finished":
+-            f = next((d / "data").glob("tau_*ms.pt"), None)
+-            if f is not None:
+-                out.append((d.name, p, torch.load(f)))
++            try:
++                D = next(iter(load_tau_files(d).values()))
++            except (FileNotFoundError, StopIteration):
++                continue
++            out.append((d.name, p, D))
+     return out
+ 
+ 
+@@ -77,8 +81,11 @@ def ramps():
+         meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
+         p = meta.get("params", {})
+         if p.get("a_c") and p.get("density") == 6250 and p.get("noise") == "thermal" and p.get("T_nK") == 5.0                 and p.get("a_i", 0) > A_STAR and p.get("a_f", 99) < A_ROT                 and p.get("noise_cutoff", 1.0) == 1.0 and meta.get("status") == "finished":
+-            for f in sorted((d / "data").glob("tau_*ms.pt")):
+-                D = torch.load(f)
++            try:
++                files = load_tau_files(d)
++            except FileNotFoundError:
++                continue
++            for tau, D in sorted(files.items()):
+                 out.append((d.name, p, float(D["args"]["tau"]), D))
+     return out
+ 
+diff --git a/tools/export_c1_data.py b/tools/export_c1_data.py
+index 1fd911b..08eca9f 100644
+--- a/tools/export_c1_data.py
++++ b/tools/export_c1_data.py
+@@ -59,6 +59,7 @@ Arrays in `tau_<t>ms.npz` (R = realizations, K = records, every `record_ms`):
+ | g2 | (K2, Nz/2) | sample-averaged density correlation g2(dz), every `store_every` records |
+ | g2_times_ms | (K2,) | times of g2 and line |
+ | line | (K2, S, Nz) | line density n(z) (atoms per oscillator length l = 0.641 um) of the first S realizations |
++| dz_um | () | grid spacing along the tube in um |
+ 
+ The scattering length follows a_s(t) = a_i + (a_f - a_i) min(1, max(0, (t - equil_ms)/tau)),
+ with a_i, a_f, equil_ms in params.json (a_s in Bohr radii). Spinodals and
+@@ -127,6 +128,7 @@ def main():
+                 if k in D:
+                     v = D[k]
+                     arrays[k] = (v.numpy() if hasattr(v, "numpy") else np.asarray(v)).astype(dt)
++            arrays["dz_um"] = np.float64(D["dz_um"])
+             np.savez_compressed(dst / (f.stem + ".npz"), **arrays)
+             rows.append({"run": rid, "file": f"{rid}/{f.stem}.npz", "density_per_um": p["density"],
+                          "tau_ms": float(f.stem[4:-2]), "protocol": protocol(p), "noise": p["noise"],

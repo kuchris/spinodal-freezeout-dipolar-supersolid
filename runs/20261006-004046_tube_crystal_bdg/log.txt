@@ -1,0 +1,26 @@
+[qs.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-004046_tube_crystal_bdg
+a_s = 90.2: crystal contrast 0.7340, mu 12.664651 (1 s)
+  q = 0 pi/L: omega = [0.0, 0.000469, 0.534833, 0.999999] (600 iterations, 401 s)
+a_s = 90.3: crystal contrast 0.6923, mu 12.676823 (1 s)
+Traceback (most recent call last):
+  File "C:\Users\kyost\Desktop\git\qs\src\qs\bdg.py", line 122, in _rayleigh_ritz
+    wB, VB = torch.linalg.eigh(GB)
+             ~~~~~~~~~~~~~~~~~^^^^
+torch._C._LinAlgError: linalg.eigh: The algorithm failed to converge because the input matrix is ill-conditioned or has too many repeated eigenvalues (error code: 2).
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\kyost\Desktop\git\qs\benchmarks\tube_crystal_bdg.py", line 87, in main
+    w, _, binfo = bogoliubov(model, psi, q=f * math.pi / Lc, n_modes=args.n_modes, tol=args.tol,
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             max_iter=args.max_iter, x0=warm.get(f) if args.warm else None)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kyost\Desktop\git\qs\src\qs\bdg.py", line 189, in bogoliubov
+    lam_new, C = _rayleigh_ritz(grid, S, AS, BS, m)
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kyost\Desktop\git\qs\src\qs\bdg.py", line 125, in _rayleigh_ritz
+    wB, VB = torch.linalg.eigh(GB + eps * torch.eye(GB.shape[0], dtype=GB.dtype, device=GB.device))
+             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch._C._LinAlgError: linalg.eigh: The algorithm failed to converge because the input matrix is ill-conditioned or has too many repeated eigenvalues (error code: 2).
+

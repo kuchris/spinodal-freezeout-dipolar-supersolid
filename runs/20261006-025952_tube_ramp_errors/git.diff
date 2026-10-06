@@ -1,0 +1,125 @@
+diff --git a/benchmarks/tube_ramp_figures.py b/benchmarks/tube_ramp_figures.py
+index 7d14d42..b29bb58 100644
+--- a/benchmarks/tube_ramp_figures.py
++++ b/benchmarks/tube_ramp_figures.py
+@@ -28,9 +28,9 @@ ROOT = Path(__file__).resolve().parents[1] / "runs"
+ SPINODAL = {700: 84.506, 2500: 92.314, 6250: 89.845}       # a_rot* on the dynamical grid
+ A_STAR = {700: 85.28, 2500: 92.314, 6250: 90.256}
+ BRANCH_END = {6250: 90.39}
+-FORWARD = {2500: ["20261005-140819"], 6250: ["20261005-132617", "20261005-133951"],
+-           700: ["20261005-145757", "20261005-151305", "20261005-152429", "20261005-171904"]}
+-REVERSE = {6250: ["20261005-155046"]}
++FORWARD = {2500: ["20261005-140819", "20261006-012712"], 6250: ["20261005-132617", "20261005-133951"],
++           700: ["20261005-145757", "20261005-151305", "20261005-152429", "20261005-171904", "20261006-022814"]}
++REVERSE = {6250: ["20261005-155046", "20261006-014539"]}
+ COLORS = {700: "#c0504d", 2500: "#4f81bd", 6250: "#9bbb59"}
+ 
+ 
+@@ -42,6 +42,19 @@ def load(run_id):
+     return out
+ 
+ 
++def pooled(ids):
++    """{tau: [D, ...]} over several runs (extra realizations of the same tau_Q)."""
++    out = {}
++    for rid in ids:
++        for tau, D in load(rid).items():
++            out.setdefault(tau, []).append(D)
++    return out
++
++
++def pooled_crossings(Ds, tau, ref, threshold=0.98):
++    return sorted(x for D in Ds for x in crossings(D, tau, ref, threshold))
++
++
+ def a_of_t(a, tau):
+     return lambda t: a["a_i"] + (a["a_f"] - a["a_i"]) * min(1.0, max(0.0, (t - a["equil_ms"]) / tau))
+ 
+@@ -71,16 +84,14 @@ def fig_freezeout(run):
+     for n, ids in FORWARD.items():
+         for ref, axis in ((SPINODAL[n], ax), (A_STAR[n], inset)):
+             pts = []
+-            for rid in ids:
+-                for tau, D in load(rid).items():
+-                    c = crossings(D, tau, ref)
+-                    if c:
+-                        pts.append((tau, median(c)))
+-            pts.sort()
++            for tau, Ds in sorted(pooled(ids).items()):
++                c = pooled_crossings(Ds, tau, ref)
++                if c:
++                    pts.append((tau, median(c)))
+             axis.loglog([p[0] for p in pts], [p[1] for p in pts], "o-", color=COLORS[n], ms=4,
+                         label=f"{n}/µm {'(continuous)' if n == 2500 else '(first order)'}")
+     for n, ids in REVERSE.items():
+-        pts = sorted((tau, median(crossings(D, tau, BRANCH_END[n]))) for rid in ids for tau, D in load(rid).items())
++        pts = sorted((tau, median(pooled_crossings(Ds, tau, BRANCH_END[n]))) for tau, Ds in pooled(ids).items())
+         ax.loglog([p[0] for p in pts], [p[1] for p in pts], "s--", color=COLORS[n], mfc="white", ms=4,
+                   label=f"{n}/µm reverse (from branch end)")
+     tq = torch.tensor([10.0, 400.0])
+@@ -96,9 +107,7 @@ def fig_freezeout(run):
+ 
+ def fig_dynamics(run):
+     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9, 3.6))
+-    data = {}
+-    for rid in FORWARD[6250]:
+-        data.update(load(rid))
++    data = {tau: Ds[0] for tau, Ds in pooled(FORWARD[6250]).items()}
+     for tau in sorted(data):
+         D = data[tau]
+         a = D["args"]
+@@ -148,13 +157,11 @@ def fig_hysteresis(run):
+     for ids, ref, mk, lab in ((FORWARD[6250], SPINODAL[6250], "v-", "down (uniform → crystal)"),
+                               (REVERSE[6250], BRANCH_END[6250], "^-", "up (crystal → uniform)")):
+         pts = []
+-        for rid in ids:
+-            for tau, D in load(rid).items():
+-                c = crossings(D, tau, ref)
+-                a = D["args"]
+-                rate = (a["a_f"] - a["a_i"]) / tau
+-                pts.append((tau, ref + rate * median(c)))
+-        pts.sort()
++        for tau, Ds in sorted(pooled(ids).items()):
++            c = pooled_crossings(Ds, tau, ref)
++            a = Ds[0]["args"]
++            rate = (a["a_f"] - a["a_i"]) / tau
++            pts.append((tau, ref + rate * median(c)))
+         ax.semilogx([p[0] for p in pts], [p[1] for p in pts], mk, label=lab)
+     for x, lab in ((SPINODAL[6250], "a_rot* (uniform spinodal)"), (A_STAR[6250], "a*"),
+                    (BRANCH_END[6250], "crystal branch end")):
+@@ -242,11 +249,10 @@ def fig_nucleation(run):
+ def fig_droplets(run):
+     fig, (a1, a2) = plt.subplots(1, 2, figsize=(8, 3.4))
+     rows = []
+-    for rid in FORWARD[700]:
+-        for tau, D in load(rid).items():
+-            c = crossings(D, tau, SPINODAL[700])
+-            rows.append((tau, float(D["peaks"][-1].float().mean()), median(c), c[0], c[-1]))
+-    rows.sort()
++    for tau, Ds in sorted(pooled(FORWARD[700]).items()):
++        c = pooled_crossings(Ds, tau, SPINODAL[700])
++        final = torch.cat([D["peaks"][-1].float() for D in Ds]).mean()
++        rows.append((tau, float(final), median(c), c[0], c[-1]))
+     a1.semilogx([r[0] for r in rows], [r[1] for r in rows], "o-", color=COLORS[700])
+     a1.axhline(32, color="gray", ls=":", lw=1)
+     a1.set_xlabel("τ_Q (ms)")
+diff --git a/benchmarks/tube_ramp_nucleation.py b/benchmarks/tube_ramp_nucleation.py
+index 16123f1..17cd729 100644
+--- a/benchmarks/tube_ramp_nucleation.py
++++ b/benchmarks/tube_ramp_nucleation.py
+@@ -107,6 +107,15 @@ def ramp_test(integral, L_um):
+         print(f"ramp {name} {a_i:g} -> {a_f:g} a0 in {tau:g} ms (tau_Q-equivalent {tau_eq:.0f} ms, "
+               f"{'deep' if deep is not None else 'loose'}): droplet before the spinodal in {early}/{n}; "
+               f"predicted P = {1 - math.exp(-m):.2f}; roton power at a* {s_star:.3f}", flush=True)
++    pooled = {}                                         # same protocol, several runs
++    for r in rows:
++        key = (r["a_i"], round(r["tau_Q_equivalent_ms"]), r["deep_count"])
++        e = pooled.setdefault(key, {"early": 0, "realizations": 0, "P_predicted": r["P_predicted"]})
++        e["early"] += r["early"]
++        e["realizations"] += r["realizations"]
++    for (a_i, tau_eq, deep), e in sorted(pooled.items()):
++        print(f"pooled ramps from {a_i:g} a0, tau_Q-equivalent {tau_eq} ms ({'deep' if deep else 'loose'}): "
++              f"{e['early']}/{e['realizations']} before the spinodal, predicted {e['P_predicted']:.2f}", flush=True)
+     return rows
+ 
+ 

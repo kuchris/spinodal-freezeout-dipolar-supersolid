@@ -1,0 +1,28 @@
+# Code and data of the paper; add the journal reference and DOIs at publication.
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the paper."
+title: "Code and data for: Spinodal-controlled freeze-out and nucleation at the first-order superfluid-supersolid transition of a dipolar gas"
+type: software
+version: 1.0.0
+license: MIT
+authors:
+  - family-names: "Wong"
+    given-names: "Wai Kui"
+    affiliation: "Independent Researcher"
+    email: "kuchrisuk@gmail.com"
+    orcid: "https://orcid.org/0009-0003-4244-809X"
+keywords:
+  - dipolar quantum gas
+  - supersolid
+  - Kibble-Zurek mechanism
+  - first-order phase transition
+  - extended Gross-Pitaevskii equation
+preferred-citation:
+  type: article
+  title: "Spinodal-controlled freeze-out and nucleation at the first-order superfluid-supersolid transition of a dipolar gas"
+  authors:
+    - family-names: "Wong"
+      given-names: "Wai Kui"
+      orcid: "https://orcid.org/0009-0003-4244-809X"
+  status: submitted
+  year: 2026

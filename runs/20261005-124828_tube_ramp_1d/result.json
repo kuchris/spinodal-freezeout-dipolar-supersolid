@@ -1,0 +1,67 @@
+{
+ "tau_10ms": {
+  "tau_ms": 10.0,
+  "freeze_out_ms": 4.312499999999972,
+  "t_c_ms": 16.187500000000004,
+  "samples": 32,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017849958259032914,
+  "steps": 13200,
+  "seconds": 8.889008283615112,
+  "final_mean_fs": 0.37766415200842157,
+  "final_mean_contrast": 0.9964556400192169
+ },
+ "tau_20ms": {
+  "tau_ms": 20.0,
+  "freeze_out_ms": 5.124999999999957,
+  "t_c_ms": 22.375000000000007,
+  "samples": 32,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017849958259032914,
+  "steps": 21120,
+  "seconds": 14.129647970199585,
+  "final_mean_fs": 0.30242190559488924,
+  "final_mean_contrast": 0.9965349894096043
+ },
+ "tau_50ms": {
+  "tau_ms": 50.0,
+  "freeze_out_ms": 7.062500000000014,
+  "t_c_ms": 40.937500000000014,
+  "samples": 32,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017849958259032914,
+  "steps": 44880,
+  "seconds": 29.959107637405396,
+  "final_mean_fs": 0.3378304080035395,
+  "final_mean_contrast": 0.9888709136268987
+ },
+ "tau_100ms": {
+  "tau_ms": 100.0,
+  "freeze_out_ms": 8.625,
+  "t_c_ms": 71.87500000000003,
+  "samples": 32,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017849958259032914,
+  "steps": 84480,
+  "seconds": 56.220977544784546,
+  "final_mean_fs": 0.34005622154049053,
+  "final_mean_contrast": 0.9806149827702434
+ },
+ "tau_200ms": {
+  "tau_ms": 200.0,
+  "freeze_out_ms": 10.74999999999963,
+  "t_c_ms": 133.75000000000006,
+  "samples": 32,
+  "noise_modes": 394,
+  "noise_added_fraction": 0.00022906976744186043,
+  "dt": 0.0017849958259032914,
+  "steps": 163680,
+  "seconds": 109.01827907562256,
+  "final_mean_fs": 0.34950208837790775,
+  "final_mean_contrast": 0.9648877190741509
+ }
+}

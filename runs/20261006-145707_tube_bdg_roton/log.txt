@@ -1,0 +1,4 @@
+[dipgpe.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261006-145707_tube_bdg_roton
+a_s = 89.9: omega_rot = 0.098455 at k = 1.5100 (wavelength 4.161 l)
+a_s = 90.0: omega_rot = 0.167604 at k = 1.5013 (wavelength 4.185 l)
+omega_rot^2 linear in a_s -> zero at a_rot* = 89.8473 a0 

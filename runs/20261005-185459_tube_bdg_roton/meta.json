@@ -1,0 +1,46 @@
+{
+ "id": "20261005-185459_tube_bdg_roton",
+ "name": "tube_bdg_roton",
+ "params": {
+  "cmd": "roton",
+  "a_list": "89.9,90.0,90.1,90.2",
+  "dx": 0.25,
+  "density": 6250.0,
+  "L_perp": 32.0,
+  "q_min": 1.4,
+  "q_max": 1.7,
+  "q_step": 0.025
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_bdg.py",
+  "roton",
+  "--density",
+  "6250",
+  "--L-perp",
+  "32",
+  "--a-list",
+  "89.9,90.0,90.1,90.2",
+  "--q-min",
+  "1.40",
+  "--q-max",
+  "1.70"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "8f92a3776811454174ec49688af548280182921f",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-05T18:54:59",
+ "status": "finished",
+ "wall_s": 796.7344010999659,
+ "end": "2026-10-05T19:08:16"
+}

@@ -1,0 +1,22 @@
+diff --git a/benchmarks/tube_crystal_bdg.py b/benchmarks/tube_crystal_bdg.py
+index 42a94f9..56d17e4 100644
+--- a/benchmarks/tube_crystal_bdg.py
++++ b/benchmarks/tube_crystal_bdg.py
+@@ -51,6 +51,8 @@ def main():
+     p.add_argument("--L-perp", type=float, default=24.0)
+     p.add_argument("--tol", type=float, default=1e-4, help="relative residual (frequencies to ~tol^2)")
+     p.add_argument("--max-iter", type=int, default=600)
++    p.add_argument("--warm", action="store_true",
++                   help="warm-start each a_s from the previous modes (slower here and can be ill-conditioned)")
+     args = p.parse_args()
+     um = UNITS.microns(1.0)
+     L = args.cells * args.cell_um / um
+@@ -83,7 +85,7 @@ def main():
+             for f in fracs:
+                 t0 = time.time()
+                 w, _, binfo = bogoliubov(model, psi, q=f * math.pi / Lc, n_modes=args.n_modes, tol=args.tol,
+-                                         max_iter=args.max_iter, x0=warm.get(f))
++                                         max_iter=args.max_iter, x0=warm.get(f) if args.warm else None)
+                 warm[f] = binfo["g"]                                   # warm start for the next a_s
+                 row["bands"][str(f)] = w.tolist()
+                 row.setdefault("iterations", {})[str(f)] = binfo["iterations"]

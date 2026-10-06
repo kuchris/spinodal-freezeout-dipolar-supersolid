@@ -1,0 +1,47 @@
+[
+ {
+  "tau_ms": 20.0,
+  "freeze_out_ms": 4.300000000000068,
+  "t_c_ms": 20.800000000000004,
+  "samples": 4,
+  "noise_modes": 146,
+  "noise_added_fraction": 0.00013224637681159422,
+  "dt": 0.00942477796076938,
+  "steps": 5000,
+  "seconds": 56.50422215461731,
+  "final_mean_fs": 0.931789552497596,
+  "final_mean_contrast": 0.41380628022642607,
+  "final_mean_peaks": 32.0,
+  "ground_state_cells": 32
+ },
+ {
+  "tau_ms": 50.0,
+  "freeze_out_ms": 5.999999999999957,
+  "t_c_ms": 37.00000000000001,
+  "samples": 4,
+  "noise_modes": 146,
+  "noise_added_fraction": 0.00013224637681159422,
+  "dt": 0.00942477796076938,
+  "steps": 8000,
+  "seconds": 88.94567227363586,
+  "final_mean_fs": 0.9295372464459051,
+  "final_mean_contrast": 0.39624979873258864,
+  "final_mean_peaks": 32.0,
+  "ground_state_cells": 32
+ },
+ {
+  "tau_ms": 100.0,
+  "freeze_out_ms": 7.599999999999525,
+  "t_c_ms": 64.00000000000001,
+  "samples": 4,
+  "noise_modes": 146,
+  "noise_added_fraction": 0.00013224637681159422,
+  "dt": 0.00942477796076938,
+  "steps": 13000,
+  "seconds": 144.77350759506226,
+  "final_mean_fs": 0.9916180776910329,
+  "final_mean_contrast": 0.19605451046540778,
+  "final_mean_peaks": 0.75,
+  "ground_state_cells": 32
+ }
+]
