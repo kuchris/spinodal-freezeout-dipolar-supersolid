@@ -1,5 +1,7 @@
 # Spinodal-controlled freeze-out and nucleation at the first-order superfluid–supersolid transition of a dipolar gas
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23181065.svg)](https://doi.org/10.5281/zenodo.23181065)
+
 Code, run records and analysis of the paper
 
 > W. K. Wong, *Spinodal-controlled freeze-out and nucleation at the first-order

@@ -1,10 +1,12 @@
-# Code and data of the paper; add the journal reference and DOIs at publication.
+# Code and data of the paper; add the journal reference at publication.
 cff-version: 1.2.0
 message: "If you use this code or data, please cite the paper."
 title: "Code and data for: Spinodal-controlled freeze-out and nucleation at the first-order superfluid-supersolid transition of a dipolar gas"
 type: software
 version: 1.0.0
 license: MIT
+doi: "10.5281/zenodo.23181065"
+repository-code: "https://github.com/kuchris/spinodal-freezeout-dipolar-supersolid"
 authors:
   - family-names: "Wong"
     given-names: "Wai Kui"
