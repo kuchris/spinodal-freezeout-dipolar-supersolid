@@ -1,0 +1,42 @@
+{
+ "id": "20261008-132458_tube_localized",
+ "name": "tube_localized",
+ "params": {
+  "a": 90.256,
+  "density": 6250.0,
+  "cells": 64,
+  "cell_um": 2.76,
+  "nz_cell": 17,
+  "patch": "auto",
+  "perturb": 0.0,
+  "seed": 0,
+  "dx": 0.25,
+  "L_perp": 24.0,
+  "max_iter": 60000
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_localized.py",
+  "--a",
+  "90.256",
+  "--cells",
+  "64"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "3909629b4670d0f9f76f3ec3d6282646494058a6",
+ "git_dirty": true,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-08T13:24:59",
+ "status": "finished",
+ "wall_s": 228.31025380000938,
+ "end": "2026-10-08T13:28:47"
+}

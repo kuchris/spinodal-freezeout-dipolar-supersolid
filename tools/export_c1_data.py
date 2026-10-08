@@ -35,7 +35,14 @@ FIELDS = {"times_ms": np.float32, "fs": np.float32, "contrast": np.float32, "pea
           "line": np.float32}
 STATIC = ["20261004-021532", "20261005-143507", "20261005-144208", "20261005-144924", "20261005-164310",
           "20261005-185459", "20261006-002643", "20261006-005533", "20261006-010515", "20261006-011016",
-          "20261006-133351"]
+          "20261006-133351",
+          # v2, Appendix E: Maxwell construction (6250/um, 2500/um, convergence checks) and localized states
+          "20261008-123945", "20261008-123613", "20261008-154519", "20261008-154742", "20261008-154909",
+          "20261008-130517", "20261008-131726", "20261008-132115", "20261008-132458"]
+V2_ROLES = {"20261008-133754": "hold at 90.8 a0, 5 nK: roton frequencies (Appendix F)",
+            "20261008-135021": "hold at 90.8 a0, 10 nK: roton frequencies (Appendix F)",
+            "20261008-141000": "hold at 90.8 a0, quantum noise: zero-temperature reference (Appendix F)",
+            "20261008-140146": "thermal ramps, 5 nK, tau_Q 20 and 200 ms (Table V)"}
 
 README = """# Reduced data for "Spinodal-controlled freeze-out and nucleation at the
 first-order superfluid--supersolid transition of a dipolar gas" (W. K. Wong)
@@ -68,12 +75,17 @@ transition points: a_rot* = 89.845, 92.314, 84.506 a0 and a* = 90.256, 92.314,
 
 `static/` holds the ground-state energies (tube_first_order), the Bogoliubov
 roton and crystal soft-mode results and the ground states of Fig. 1(d), each with
-its run metadata.
+its run metadata; and, for Appendix E, the Maxwell construction of the uniform
+and crystal branches (tube_coexistence.json: energies, chemical potentials and
+pressures per density, coexisting densities and the coexistence window) and the
+localized states (tube_localized.json with the line densities of the converged
+states; localized_column.npz with the column density of Fig. 7).
 
 Analysis and figures: the scripts benchmarks/tube_ramp_errors.py,
-tube_ramp_figures.py, tube_ramp_nucleation.py, tube_ramp_cutoff.py and
-tube_ramp_dt_check.py of the dipgpe code read the original run records; the
-arrays here are the same observables in a portable format.
+tube_ramp_figures.py, tube_ramp_nucleation.py, tube_ramp_cutoff.py,
+tube_ramp_dt_check.py and tube_thermal_shift.py of the dipgpe code read the
+original run records or, without them, the arrays here (the same observables in
+a portable format).
 """
 
 
@@ -85,15 +97,17 @@ def roles():
     for n, ids in F.REVERSE.items():
         for i in ids:
             r.setdefault(i, []).append(f"reverse ramps {n}/um (Figs. 3, 4; melting exponent)")
+    for i, role in V2_ROLES.items():
+        r.setdefault(i, []).append(role)
     return r
 
 
 def cited_runs():
     text = (ROOT / "docs" / "RESULTS.md").read_text(encoding="utf-8")
-    ids = set(re.findall(r"2026100[56]-\d{6}", text))
+    ids = set(re.findall(r"2026100[5-8]-\d{6}", text))
     ids |= {i for v in F.FORWARD.values() for i in v} | {i for v in F.REVERSE.values() for i in v}
     out = []
-    for d in sorted((ROOT / "runs").glob("2026100[56]-*_tube_ramp_3d")):
+    for d in sorted((ROOT / "runs").glob("2026100[5-8]-*_tube_ramp_3d")):
         rid = d.name.split("_")[0]
         meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
         prm = meta.get("params", {})
@@ -148,7 +162,7 @@ def main():
         dst = st / d.name
         dst.mkdir()
         for f in d.iterdir():
-            if f.suffix == ".json":
+            if f.suffix in (".json", ".npz"):
                 shutil.copy(f, dst / f.name)
         for f in (d / "data").glob("*.pt") if (d / "data").exists() else []:
             S = torch.load(f)

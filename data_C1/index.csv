@@ -74,3 +74,8 @@ run,file,density_per_um,tau_ms,protocol,noise,T_nK,noise_cutoff,dt_safety,realiz
 20261006-022814,20261006-022814/tau_400ms.npz,700.0,400.0,forward ramp 87.0 -> 83.0 a0,quantum,0,1.0,0.9,8,7,"forward ramps 700/um (Figs. 2-4, 6; exponents)"
 20261006-142433,20261006-142433/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.45,16,0,cited in the paper / docs RESULTS
 20261006-142433,20261006-142433/tau_50ms.npz,6250.0,50.0,forward ramp 92.0 -> 88.0 a0,quantum,0,1.0,0.45,16,0,cited in the paper / docs RESULTS
+20261008-133754,20261008-133754/tau_20ms.npz,6250.0,20.0,hold at 90.8 a0 after a 20 ms ramp from 92.0 a0,thermal,5.0,1.0,0.9,8,800,"hold at 90.8 a0, 5 nK: roton frequencies (Appendix F)"
+20261008-135021,20261008-135021/tau_20ms.npz,6250.0,20.0,hold at 90.8 a0 after a 20 ms ramp from 92.0 a0,thermal,10.0,1.0,0.9,8,900,"hold at 90.8 a0, 10 nK: roton frequencies (Appendix F)"
+20261008-140146,20261008-140146/tau_200ms.npz,6250.0,200.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,16,700,"thermal ramps, 5 nK, tau_Q 20 and 200 ms (Table V)"
+20261008-140146,20261008-140146/tau_20ms.npz,6250.0,20.0,forward ramp 92.0 -> 88.0 a0,thermal,5.0,1.0,0.9,16,700,"thermal ramps, 5 nK, tau_Q 20 and 200 ms (Table V)"
+20261008-141000,20261008-141000/tau_20ms.npz,6250.0,20.0,hold at 90.8 a0 after a 20 ms ramp from 92.0 a0,quantum,0,1.0,0.9,4,1000,"hold at 90.8 a0, quantum noise: zero-temperature reference (Appendix F)"

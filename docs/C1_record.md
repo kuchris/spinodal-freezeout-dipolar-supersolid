@@ -6,6 +6,49 @@ observables are in the data archive, see README). Some run records name the
 former package name `qs` and the former script `tube_bdg.py roton` (now
 `tube_roton.py`); the code is otherwise identical.
 
+## 2026-10-08 — Paper C1 v2: coexistence, localized states and thermal effects on the onset
+
+Prompted by the literature (Steinberg et al., PRR 7, L032044 (2025);
+Sánchez-Baena et al., Nat. Commun. 14, 1868 (2023)). Reviewed by Codex
+(gpt-6-astra, max effort); its corrections are included below.
+
+- **Coexistence** (`benchmarks/tube_coexistence.py`, run `20261008-123945`;
+  `-123401` superseded): Maxwell construction at 6250/µm, a_s = 90.15, 90.256,
+  90.35. Coexisting densities differ by 53/µm (crystal less dense); at fixed
+  n = 6250/µm phase separation (thermodynamic limit) for 90.237–90.274 a0,
+  width 0.037 a0, containing a* = 90.2555 (= submitted value). Identity residuals
+  below 2e-5; width independent of the cell length. Convergence (runs
+  `20261008-154519`, `-154742`, `-154909`): density step 10/µm and dx 0.1875 l
+  change the window by < 1e-5 a0; transverse box 32 l shifts it by −0.0024 a0
+  (width 0.0369).
+- **2500/µm** (run `20261008-123613`, a_s = 92.25, 92.20): no coexistence;
+  κ/(∂μ_U/∂n) = 0.004–0.009 ≪ 1 — continuous also with density redistribution.
+- **Localized states** (`benchmarks/tube_localized.py`, runs `20261008-130517`,
+  `-131726`, `-132115`, `-132458`): stationary crystal patches at n_M in
+  superfluid at n_U (densities within 6/µm), interfaces ≈ 9 µm, σ = 47.3–47.9
+  ħω⊥ per interface (bulk reference and 32/64-cell comparison agree). In the
+  88 µm tube they lie above the homogeneous states; phase separation pays off
+  only above ≈ 250 µm near a* (513 µm at 90.25 a0).
+- **Correction of the submitted text**: the hold droplet counts are ensemble
+  means; single realizations stay uniform or crystallize completely
+  (16/16, 12/16, 6/16, 2/8 nucleate at 89.95, 90.05, 90.15, 90.25 a0).
+- **Thermal effects on the onset** (`benchmarks/tube_thermal_shift.py`, run
+  `20261008-154718`; `-143112`, `-151155`, `-154654` superseded; medians as in
+  Appendix D, upper middle, 2000 bootstrap): new 5 nK ramps at τ_Q = 20, 200 ms
+  (`20261008-140146`) and holds at 90.8 a0 (`-133754` 5 nK, `-135021` 10 nK,
+  `-141000` quantum reference). The thermal advance of the median onset depends
+  on the threshold (τ_Q = 200 ms: 11.3, 7.4, 0.9 ms for f_s < 0.98, 0.7, 0.5), so
+  the onset curve is not shifted rigidly; for f_s < 0.5 the 5 nK exponent is
+  0.38 ± 0.02 (quantum 0.35 ± 0.02, τ_Q = 50–200 ms). The small bulk advance
+  (≤ 1.6 ms, not growing with τ_Q) is what larger seeds produce; the extra early
+  drop for slow ramps at thresholds near 1 is not identified. The earlier reading as a
+  0.13 a0 shift of the spinodal (f_s < 0.7 only, including the post-ramp 20 ms
+  point) was withdrawn after the review. Holds: no resolved roton softening at
+  10 nK (mode-matched shift 0.000–0.002 ± 0.007 a0 for three fit windows); 5 nK
+  inconclusive (roton modes strongly damped).
+- Figures: `20261008-143914_tube_ramp_figures` (Fig. 7 new; Figs. 1–6
+  unchanged; hold selection restricted to the window, `-143645` superseded).
+
 ## 2026-10-06 — Time-step convergence (`benchmarks/tube_ramp_dt_check.py`, run `20261006-144331_tube_ramp_dt_check`)
 
 The grid comparison (dx 0.25 → 0.1875 l) also changes the stability-limited

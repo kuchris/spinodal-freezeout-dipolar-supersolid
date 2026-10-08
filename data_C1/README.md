@@ -29,9 +29,14 @@ transition points: a_rot* = 89.845, 92.314, 84.506 a0 and a* = 90.256, 92.314,
 
 `static/` holds the ground-state energies (tube_first_order), the Bogoliubov
 roton and crystal soft-mode results and the ground states of Fig. 1(d), each with
-its run metadata.
+its run metadata; and, for Appendix E, the Maxwell construction of the uniform
+and crystal branches (tube_coexistence.json: energies, chemical potentials and
+pressures per density, coexisting densities and the coexistence window) and the
+localized states (tube_localized.json with the line densities of the converged
+states; localized_column.npz with the column density of Fig. 7).
 
 Analysis and figures: the scripts benchmarks/tube_ramp_errors.py,
-tube_ramp_figures.py, tube_ramp_nucleation.py, tube_ramp_cutoff.py and
-tube_ramp_dt_check.py of the dipgpe code read the original run records; the
-arrays here are the same observables in a portable format.
+tube_ramp_figures.py, tube_ramp_nucleation.py, tube_ramp_cutoff.py,
+tube_ramp_dt_check.py and tube_thermal_shift.py of the dipgpe code read the
+original run records or, without them, the arrays here (the same observables in
+a portable format).

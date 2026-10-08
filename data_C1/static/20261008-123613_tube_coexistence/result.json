@@ -1,0 +1,21 @@
+{
+ "window": null,
+ "coexistence": {
+  "92.25": {
+   "crossing": null,
+   "note": "no crossing inside the common mu range",
+   "dP_at_ends": [
+    0.0076796073647858315,
+    0.16859567243545798
+   ]
+  },
+  "92.2": {
+   "crossing": null,
+   "note": "no crossing inside the common mu range",
+   "dP_at_ends": [
+    0.006917971300126502,
+    0.3393567813299395
+   ]
+  }
+ }
+}

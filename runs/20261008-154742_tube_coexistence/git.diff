@@ -1,0 +1,57 @@
+diff --git a/benchmarks/tube_thermal_shift.py b/benchmarks/tube_thermal_shift.py
+index 38e13af..9871862 100644
+--- a/benchmarks/tube_thermal_shift.py
++++ b/benchmarks/tube_thermal_shift.py
+@@ -14,9 +14,9 @@ zero-temperature values. Two tests:
+          instance a shifted instability) would give the same advance for every
+          threshold. Ramp times whose median onset falls after the end of the
+          linear ramp are excluded from the exponents (paper C1, Appendix D).
+-         Medians of even counts average the two middle values; errors are
+-         bootstrap standard deviations (4000 resamples for advances, 2000 for
+-         exponents).
++         Medians use the upper middle realization for an even count and errors
++         are bootstrap standard deviations over 2000 resamples, as in
++         tube_ramp_errors.py (paper C1, Appendix D).
+   holds  Line densities n(z, t) of holds above the metastable window (no crystal
+          branch, no nucleation), with thermal noise and, as the reference, with
+          quantum noise only (linear fluctuations: zero-temperature frequencies,
+@@ -145,6 +145,13 @@ def holds(args):
+     return out
+ 
+ 
++def median(v):
++    """Upper middle value for an even count, as in tube_ramp_errors.py (paper C1,
++    Appendix D); realizations that never cross count as the latest."""
++    v = np.sort(np.where(np.isnan(v), np.inf, v))
++    return float(v[len(v) // 2])
++
++
+ def onsets(run_ids, tau, thr):
+     out = []
+     for r in run_ids:
+@@ -167,10 +174,10 @@ def ramps(args):
+         for tau in sorted(set(th) & set(qu)):
+             a, b = onsets(qu[tau], tau, thr), onsets(th[tau], tau, thr)
+             end = tau * (1 - (92 - A_ROT) / 4)                   # end of the linear ramp, after the spinodal
+-            post = bool(max(np.nanmedian(a), np.nanmedian(b)) > end)
+-            d = float(np.nanmedian(a) - np.nanmedian(b))
+-            bs = [np.nanmedian(rng.choice(a, a.size)) - np.nanmedian(rng.choice(b, b.size)) for _ in range(4000)]
+-            rows.append({"tau_ms": tau, "quantum_median": float(np.nanmedian(a)), "thermal_median": float(np.nanmedian(b)),
++            post = bool(max(median(a), median(b)) > end)
++            d = median(a) - median(b)
++            bs = [median(rng.choice(a, a.size)) - median(rng.choice(b, b.size)) for _ in range(2000)]
++            rows.append({"tau_ms": tau, "quantum_median": median(a), "thermal_median": median(b),
+                          "n_quantum": int(a.size), "n_thermal": int(b.size), "advance_ms": d,
+                          "advance_err": float(np.std(bs)), "post_ramp": post})
+             samples.append((a, b, post))
+@@ -179,8 +186,8 @@ def ramps(args):
+         slope = lambda med: float(np.polyfit(logt, np.log(med), 1)[0])  # noqa: E731
+         ex = {}
+         for key, k in (("quantum", 0), ("thermal", 1)):
+-            med = [np.nanmedian(samples[i][k]) for i in use]
+-            bs = [slope([np.nanmedian(rng.choice(samples[i][k], samples[i][k].size)) for i in use])
++            med = [median(samples[i][k]) for i in use]
++            bs = [slope([median(rng.choice(samples[i][k], samples[i][k].size)) for i in use])
+                   for _ in range(2000)]
+             ex[key] = {"exponent": slope(med), "err": float(np.std(bs))}
+         out[str(thr)] = {"rows": rows, "exponents_from_T0_spinodal": ex,

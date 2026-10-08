@@ -1,0 +1,9 @@
+[dipgpe.runs] finished runs with the same name and parameters: 20261006-142935_tube_ramp_figures, 20261006-150916_tube_ramp_figures, 20261008-143645_tube_ramp_figures
+[dipgpe.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261008-143914_tube_ramp_figures
+fig_schematic done
+fig_freezeout done
+fig_dynamics done
+fig_hysteresis done
+fig_nucleation done
+fig_droplets done
+fig_coexistence done

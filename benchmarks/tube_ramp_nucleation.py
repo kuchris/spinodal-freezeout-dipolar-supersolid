@@ -54,7 +54,8 @@ def holds():
         meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
         p = meta.get("params", {})
         if p.get("a_c") == 0 and p.get("density") == 6250 and p.get("noise") == "thermal" \
-                and meta.get("status") == "finished":
+                and meta.get("status") == "finished" \
+                and p.get("a_f", 1e9) < 90.39:          # inside the window (90.8 a0: thermal-shift holds)
             try:
                 D = next(iter(load_tau_files(d).values()))
             except (FileNotFoundError, StopIteration):

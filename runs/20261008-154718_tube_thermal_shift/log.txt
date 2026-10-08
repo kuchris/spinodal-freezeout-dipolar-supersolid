@@ -1,0 +1,12 @@
+[dipgpe.runs] finished runs with the same name and parameters: 20261008-143112_tube_thermal_shift, 20261008-151155_tube_thermal_shift
+[dipgpe.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261008-154718_tube_thermal_shift
+window 60: T = 5 nK: modes [] -> delta a_rot = None +- None a0
+window 60: T = 10 nK: modes [30, 31, 32] -> delta a_rot = 0.001 +- 0.007 a0
+window 100: T = 5 nK: modes [31] -> delta a_rot = 0.0048 +- 0.1624 a0
+window 100: T = 10 nK: modes [30, 31, 32] -> delta a_rot = 0.0024 +- 0.0069 a0
+window 150: T = 5 nK: modes [31] -> delta a_rot = 0.0024 +- 0.1654 a0
+window 150: T = 10 nK: modes [30, 31, 32] -> delta a_rot = -0.0 +- 0.0055 a0
+f_s < 0.98: advances 20 ms: 0.70 +- 0.24, 50 ms: 1.90 +- 0.78, 100 ms: 6.50 +- 1.88, 200 ms: 11.30 +- 1.77; exponents quantum 0.363 +- 0.007, thermal 0.042 +- 0.073
+f_s < 0.9: advances 20 ms: 0.70 +- 0.21 (post-ramp), 50 ms: 1.90 +- 0.76, 100 ms: 6.30 +- 1.88, 200 ms: 11.30 +- 1.87; exponents quantum 0.351 +- 0.015, thermal -0.031 +- 0.113
+f_s < 0.7: advances 20 ms: 0.60 +- 0.20 (post-ramp), 50 ms: 1.60 +- 0.50, 100 ms: 3.00 +- 1.22, 200 ms: 7.40 +- 1.70; exponents quantum 0.345 +- 0.014, thermal 0.165 +- 0.078
+f_s < 0.5: advances 20 ms: 0.50 +- 0.23 (post-ramp), 50 ms: 1.20 +- 0.32, 100 ms: 1.60 +- 0.40, 200 ms: 0.90 +- 0.50; exponents quantum 0.347 +- 0.015, thermal 0.379 +- 0.015

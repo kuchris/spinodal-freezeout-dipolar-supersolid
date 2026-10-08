@@ -1,0 +1,11 @@
+{
+ "figures": [
+  "fig_schematic.png",
+  "fig_freezeout.png",
+  "fig_dynamics.png",
+  "fig_hysteresis.png",
+  "fig_nucleation.png",
+  "fig_droplets.png",
+  "fig_coexistence.png"
+ ]
+}

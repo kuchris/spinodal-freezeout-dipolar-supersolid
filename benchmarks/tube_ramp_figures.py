@@ -8,6 +8,7 @@ a run: `uv run python benchmarks/tube_ramp_figures.py`).
   fig_nucleation  holds inside the window: droplets vs time for several a_s (5 nK)
                   and temperatures (90.05 a0)
   fig_droplets    700/um: final droplet number and per-realization t_hat spread vs tau_Q
+  fig_coexistence 6250/um: double tangent, coexistence window, localized state (static runs)
 """
 
 import json
@@ -317,7 +318,8 @@ def holds():
         meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
         p = meta.get("params", {})
         if p.get("a_c") == 0 and p.get("density") == 6250 and meta.get("status") == "finished" \
-                and p.get("a_i") == 92.0 and p.get("noise_cutoff", 1.0) == 1.0:
+                and p.get("a_i") == 92.0 and p.get("noise_cutoff", 1.0) == 1.0 \
+                and p.get("a_f", 1e9) < BRANCH_END[6250]:           # inside the window (90.8 a0: thermal-shift holds)
             try:
                 D = next(iter(load_tau_files(d).values()))
             except (FileNotFoundError, StopIteration):
@@ -521,15 +523,132 @@ def fig_schematic(run):
     save(fig, run, "fig_schematic")
 
 
+COEX_RUN = "20261008-123945"                    # tube_coexistence.py, 6250/um, a_s = 90.15, 90.256, 90.35
+LOCALIZED_RUN = "20261008-130517"               # tube_localized.py, 32 cells (88 um), 90.25 a0
+
+
+def static_file(run_id, name):
+    """A file of a static run record in runs/, or its copy in the reduced archive
+    (data_C1/static), which also holds the .npz files that git does not track."""
+    found = [d / name for d in sorted(ROOT.glob(run_id + "_*")) if (d / name).exists()]
+    if found and not __import__("os").environ.get("C1_ARCHIVE_ONLY"):
+        return found[0]
+    return next((Path(__file__).resolve().parents[1] / "data_C1" / "static").glob(run_id + "_*")) / name
+
+
+def fig_coexistence(run):
+    """(a) Double tangent at a* (6250/um): energy per length of the uniform and
+    crystal branches minus the common tangent, which touches them at the
+    coexisting densities n_M and n_U; (b) coexistence window in the (a_s, n)
+    plane with the C1 holds at 6250/um; (c) column density and (d) one-cell
+    running mean of the line density of the localized state in the 88 um tube
+    at 90.25 a0."""
+    import numpy as np
+    D = json.loads(static_file(COEX_RUN, "tube_coexistence.json").read_text(encoding="utf-8"))
+    Lc = json.loads(static_file(LOCALIZED_RUN, "tube_localized.json").read_text(encoding="utf-8"))
+    col = np.load(static_file(LOCALIZED_RUN, "localized_column.npz"))
+    l_um = 0.6409970693791566                        # oscillator length (um) for omega_perp = 2 pi x 150 Hz
+    fig = plt.figure(figsize=(W2, 4.1))
+    gs = fig.add_gridspec(3, 2, height_ratios=[1.35, 0.62, 0.75], hspace=0.62, wspace=0.3)
+    a1, a2 = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])
+    e = min(D["per_a"], key=lambda r: abs(r["a_s"] - 90.256))
+    co = e["coexistence"]
+    mu = co["mu"]
+    to_l = lambda n: n * l_um                         # noqa: E731  atoms per l from atoms per um
+
+    def branch(rows):
+        n = np.array([r["n"] for r in rows])
+        return n, to_l(n) * np.array([r["e"] for r in rows])          # energy per l (hbar omega)
+    nU, fU = branch(e["uniform"])
+    nM, fM = branch(e["crystal_opt"])
+    cU, cM = np.polyfit(nU - 6250, fU, 4), np.polyfit(nM - 6250, fM, 4)
+    P = mu * to_l(co["n_U"]) - np.polyval(cU, co["n_U"] - 6250)      # common tangent f = mu n - P
+    g = lambda c, n: (np.polyval(c, n - 6250) - (mu * to_l(n) - P)) / l_um   # noqa: E731  per um
+    x = np.linspace(6175, 6325, 400)
+    a1.plot(x, g(cU, x), "k-", label="uniform superfluid")
+    a1.plot(x, g(cM, x), "-", color=COLORS[6250], label="crystal")
+    su, sm = (nU >= 6175) & (nU <= 6325), (nM >= 6175) & (nM <= 6325)
+    a1.plot(nU[su], g(cU, nU[su]), "ko", ms=2.2)
+    a1.plot(nM[sm], g(cM, nM[sm]), "o", color=COLORS[6250], ms=2.2)
+    a1.axhline(0, color="gray", lw=0.7, ls="--")
+    a1.axvspan(co["n_M"], co["n_U"], color="gold", alpha=0.25, lw=0)
+    for n, lab in ((co["n_M"], r"$n_M$"), (co["n_U"], r"$n_U$")):
+        a1.plot([n], [0], "o", mfc="white", mec="k", ms=3.2, zorder=5)
+        a1.text(n, -0.32, lab, ha="center", va="top", fontsize=7)
+    a1.set_xlim(6175, 6325)
+    a1.set_ylim(-0.75, 3.0)
+    a1.set_xlabel(r"line density $n$ ($\mu$m$^{-1}$)")
+    a1.set_ylabel(r"$f - (\mu^* n - P^*)$ ($\hbar\omega_\perp/\mu$m)")
+    a1.legend(loc="upper center", fontsize=6, bbox_to_anchor=(0.5, 1.0))
+    a1.text(0.98, 0.05, rf"$a_s = {e['a_s']:g}\,a_0$", transform=a1.transAxes, fontsize=7, ha="right")
+    panel(a1, "(a)")
+    pts = sorted((r["a_s"], r["coexistence"]["n_M"], r["coexistence"]["n_U"]) for r in D["per_a"])
+    av = np.array([p[0] for p in pts])
+    pM, pU = np.polyfit(av, [p[1] for p in pts], 2), np.polyfit(av, [p[2] for p in pts], 2)
+    xa = np.linspace(90.135, 90.365, 200)
+    a2.fill_between(xa, np.polyval(pM, xa), np.polyval(pU, xa), color="gold", alpha=0.35, lw=0, label="coexistence")
+    a2.plot(xa, np.polyval(pM, xa), "-", color=COLORS[6250], label=r"$n_M$ (crystal)")
+    a2.plot(xa, np.polyval(pU, xa), "k-", label=r"$n_U$ (uniform)")
+    a2.plot(av, [p[1] for p in pts], "o", color=COLORS[6250], ms=2.5)
+    a2.plot(av, [p[2] for p in pts], "ko", ms=2.5)
+    a2.axhline(6250, color="gray", lw=0.7, ls="--")
+    w = D["window"]
+    a2.plot([w["a_from_crystal_side"], w["a_from_uniform_side"]], [6250, 6250], "-", color="#c0504d", lw=2.2,
+            solid_capstyle="butt")
+    for a_h in (90.15, 90.25):
+        a2.plot([a_h], [6250], "v", color="#1f4e79", ms=3.5)
+    a2.axvline(A_STAR[6250], color="gray", ls=":", lw=0.7)
+    a2.text(A_STAR[6250] + 0.004, 6405, r"$a^*$", fontsize=7)
+    a2.text(90.153, 6262, "holds", fontsize=6.5, color="#1f4e79")
+    a2.set_xlim(90.135, 90.365)
+    a2.set_xlabel(r"$a_s$ ($a_0$)")
+    a2.set_ylabel(r"$n$ ($\mu$m$^{-1}$)")
+    a2.legend(loc="upper right", fontsize=6)
+    panel(a2, "(b)")
+    a3 = fig.add_subplot(gs[1, :])
+    c = col["column_yz"]
+    dz, dy = float(col["dz_um"]), float(col["dy_um"])
+    Ny, Nz = c.shape
+    y = (np.arange(Ny) - Ny / 2) * dy
+    keep = np.abs(y) <= 5.0
+    a3.imshow(c[keep], origin="lower", aspect="auto", cmap="magma", vmin=0, vmax=float(c.max()),
+              extent=(0, Nz * dz, float(y[keep][0]), float(y[keep][-1])), interpolation="bilinear", rasterized=True)
+    a3.tick_params(top=False, right=False, labelbottom=False)
+    a3.set_ylabel(r"$y$ ($\mu$m)")
+    best = min(Lc["states"], key=lambda s: s["e"])
+    a3.set_title(rf"localized state: ${Lc['density']:g}{UM}$, ${Lc['a_s']:g}\,a_0$, {Lc['cells']} cells "
+                 rf"({Lc['tube_um']:.0f} $\mu$m)", fontsize=7, pad=2)
+    a3.text(-0.075, 1.12, "(c)", transform=a3.transAxes, fontsize=8, fontweight="bold")
+    a4 = fig.add_subplot(gs[2, :], sharex=a3)
+    line = np.array(best["line"]) / l_um                              # atoms per um
+    k = 2 * np.pi * np.fft.fftfreq(line.size, d=dz)
+    k_cell = 2 * np.pi / (Lc["tube_um"] / Lc["cells"])
+    smooth = np.fft.ifft(np.fft.fft(line) * np.exp(-0.5 * (k / (0.25 * k_cell)) ** 2)).real   # local mean
+    zz = np.arange(line.size) * dz
+    a4.plot(zz, smooth, color=COLORS[6250], lw=1.0)
+    for n, ls, lab in ((Lc["n_M"], ":", r"$n_M$"), (Lc["n_U"], "--", r"$n_U$")):
+        a4.axhline(n, color="k", lw=0.7, ls=ls)
+    a4.text(zz[-1] * 0.5, Lc["n_M"] - 12, r"$n_M$ (coexistence)", ha="center", fontsize=6.5)
+    a4.text(zz[-1] * 0.99, Lc["n_U"] + 4, r"$n_U$", ha="right", fontsize=6.5)
+    a4.set_ylim(Lc["n_M"] - 30, Lc["n_U"] + 25)
+    a4.set_ylabel(r"local mean ($\mu$m$^{-1}$)", fontsize=7)
+    a4.set_xlabel(r"$z$ ($\mu$m)")
+    a4.set_xlim(0, Nz * dz)
+    a4.text(-0.075, 1.08, "(d)", transform=a4.transAxes, fontsize=8, fontweight="bold")
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.95, bottom=0.08)
+    save(fig, run, "fig_coexistence")
+
+
 def main():
     style()
     with runs.Run("tube_ramp_figures", {"forward": FORWARD, "reverse": REVERSE, "spinodal": SPINODAL,
                                         "a_star": A_STAR}) as run:
-        for f in (fig_schematic, fig_freezeout, fig_dynamics, fig_hysteresis, fig_nucleation, fig_droplets):
+        for f in (fig_schematic, fig_freezeout, fig_dynamics, fig_hysteresis, fig_nucleation, fig_droplets,
+                  fig_coexistence):
             f(run)
             print(f.__name__, "done", flush=True)
         run.result(figures=["fig_schematic.png", "fig_freezeout.png", "fig_dynamics.png", "fig_hysteresis.png", "fig_nucleation.png",
-                            "fig_droplets.png"])
+                            "fig_droplets.png", "fig_coexistence.png"])
 
 
 if __name__ == "__main__":

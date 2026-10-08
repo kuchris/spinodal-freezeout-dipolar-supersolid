@@ -1,0 +1,5 @@
+[dipgpe.runs] recording to C:\Users\kyost\Desktop\git\qs\runs\20261008-140146_tube_ramp_3d
+    82.08 ms per step (16 samples), 5000 steps, estimated 410 s
+  tau_Q = 20 ms: freeze-out 6.625 ms after t_c, final <f_s> = 0.348, noise adds 0.40% (269 s)
+    64.63 ms per step (16 samples), 23000 steps, estimated 1486 s
+  tau_Q = 200 ms: freeze-out 2.55 ms after t_c, final <f_s> = 0.275, noise adds 0.40% (1444 s)

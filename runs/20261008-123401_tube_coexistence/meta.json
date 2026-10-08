@@ -1,0 +1,56 @@
+{
+ "id": "20261008-123401_tube_coexistence",
+ "name": "tube_coexistence",
+ "params": {
+  "a_list": "90.15,90.256,90.35",
+  "densities": "6050,6450,25",
+  "start": 6150.0,
+  "cells": "4.2,4.3,4.4",
+  "nz": 17,
+  "dx": 0.25,
+  "L_perp": 24.0,
+  "width": 1.0,
+  "contrast_min": 0.05,
+  "n_ref": 6250.0
+ },
+ "note": null,
+ "command": [
+  "C:\\Users\\kyost\\Desktop\\git\\qs\\.venv\\Scripts\\python.exe",
+  "benchmarks/tube_coexistence.py",
+  "--a-list",
+  "90.15,90.256,90.35",
+  "--densities",
+  "6050,6450,25",
+  "--start",
+  "6150",
+  "--cells",
+  "4.2,4.3,4.4",
+  "--nz",
+  "17",
+  "--n-ref",
+  "6250"
+ ],
+ "cwd": "C:\\Users\\kyost\\Desktop\\git\\qs",
+ "git_commit": "3909629b4670d0f9f76f3ec3d6282646494058a6",
+ "git_dirty": false,
+ "environment": {
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "host": "kupro",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "driver": "610.47"
+ },
+ "start": "2026-10-08T12:34:01",
+ "status": "finished",
+ "wall_s": 71.08156169997528,
+ "end": "2026-10-08T12:35:12",
+ "notes": [
+  {
+   "note": "Superseded by 20261008-123945_tube_coexistence: window.a_star_uniform_density here came from a linear fit across 90.15-90.35 a0 (90.2612); the corrected quadratic estimate is 90.2555. All coexistence results are identical.",
+   "invalid": false,
+   "time": "2026-10-08T12:41:01"
+  }
+ ]
+}
