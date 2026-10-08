@@ -63,7 +63,57 @@ each computation was made; this repository is a snapshot of it restricted to
 this paper (see `RELEASE_SOURCE.txt`). The analysis scripts reproduce every
 number of the paper from `data_C1/` alone.
 
-## License and citation
+## Citation
 
-MIT (see LICENSE). Please cite the paper; `CITATION.cff` describes this code
-and data.
+If you use this code or data, please cite the paper and the Zenodo archives:
+
+> W. K. Wong, *Spinodal-controlled freeze-out and nucleation at the first-order
+> superfluid–supersolid transition of a dipolar gas* (submitted; arXiv link to
+> be added).
+>
+> W. K. Wong, *Code and data for: Spinodal-controlled freeze-out and nucleation
+> at the first-order superfluid-supersolid transition of a dipolar gas*, Zenodo
+> (2026), [doi:10.5281/zenodo.23181065](https://doi.org/10.5281/zenodo.23181065).
+>
+> W. K. Wong, *Data for: Spinodal-controlled freeze-out and nucleation at the
+> first-order superfluid–supersolid transition of a dipolar gas*, Zenodo (2026),
+> [doi:10.5281/zenodo.23181218](https://doi.org/10.5281/zenodo.23181218).
+
+The two DOIs cover all versions; each version also has its own DOI on Zenodo
+(the paper uses release v1.1.0).
+
+```bibtex
+@unpublished{Wong2026,
+  author = {Wong, Wai Kui},
+  title  = {Spinodal-controlled freeze-out and nucleation at the first-order
+            superfluid--supersolid transition of a dipolar gas},
+  note   = {submitted},
+  year   = {2026}
+}
+
+@misc{WongCode2026,
+  author       = {Wong, Wai Kui},
+  title        = {Code and data for: Spinodal-controlled freeze-out and nucleation at
+                  the first-order superfluid-supersolid transition of a dipolar gas},
+  howpublished = {Zenodo},
+  year         = {2026},
+  doi          = {10.5281/zenodo.23181065},
+  url          = {https://doi.org/10.5281/zenodo.23181065}
+}
+
+@misc{WongData2026,
+  author       = {Wong, Wai Kui},
+  title        = {Data for: Spinodal-controlled freeze-out and nucleation at the
+                  first-order superfluid--supersolid transition of a dipolar gas},
+  howpublished = {Zenodo},
+  year         = {2026},
+  doi          = {10.5281/zenodo.23181218},
+  url          = {https://doi.org/10.5281/zenodo.23181218}
+}
+```
+
+GitHub's "Cite this repository" uses `CITATION.cff` (the paper and the code archive).
+
+## License
+
+MIT (see `LICENSE`).

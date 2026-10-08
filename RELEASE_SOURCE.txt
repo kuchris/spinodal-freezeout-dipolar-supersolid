@@ -1,4 +1,4 @@
-Snapshot of the development repository at commit aea3b6b7a9d9babce46774f0588ccce67da6539d
+Snapshot of the development repository at commit cc66ff62e2bb8987680de9c2c2779c44dc3b6a30
 (solver, tests and the paper C1 materials; 107 run records).
 Run records: git.diff (uncommitted changes at run time) is restricted to the
 released code files and MANIFEST updated accordingly; MANIFEST entries of
