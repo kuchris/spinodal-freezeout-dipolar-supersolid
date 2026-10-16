@@ -26,5 +26,8 @@ preferred-citation:
     - family-names: "Wong"
       given-names: "Wai Kui"
       orcid: "https://orcid.org/0009-0003-4244-809X"
-  status: submitted
+  journal: "arXiv"
+  doi: "10.48550/arXiv.2610.12511"
+  url: "https://arxiv.org/abs/2610.12511"
+  status: preprint
   year: 2026

@@ -10,8 +10,9 @@ Reduced data: Zenodo dataset [10.5281/zenodo.23181218](https://doi.org/10.5281/z
 Code, run records and analysis of the paper
 
 > W. K. Wong, *Spinodal-controlled freeze-out and nucleation at the first-order
-> superfluid–supersolid transition of a dipolar gas* (submitted; arXiv link to
-> be added).
+> superfluid–supersolid transition of a dipolar gas*,
+> arXiv:2610.12511 (2026),
+> [doi:10.48550/arXiv.2610.12511](https://doi.org/10.48550/arXiv.2610.12511).
 
 The simulations solve the three-dimensional extended Gross–Pitaevskii equation
 for 164Dy in an infinite tube with truncated-Wigner noise, using the GPU solver
@@ -68,8 +69,9 @@ number of the paper from `data_C1/` alone.
 If you use this code or data, please cite the paper and the Zenodo archives:
 
 > W. K. Wong, *Spinodal-controlled freeze-out and nucleation at the first-order
-> superfluid–supersolid transition of a dipolar gas* (submitted; arXiv link to
-> be added).
+> superfluid–supersolid transition of a dipolar gas*,
+> arXiv:2610.12511 (2026),
+> [doi:10.48550/arXiv.2610.12511](https://doi.org/10.48550/arXiv.2610.12511).
 >
 > W. K. Wong, *Code and data for: Spinodal-controlled freeze-out and nucleation
 > at the first-order superfluid-supersolid transition of a dipolar gas*, Zenodo
@@ -83,12 +85,16 @@ The two DOIs cover all versions; each version also has its own DOI on Zenodo
 (the paper uses release v1.1.0).
 
 ```bibtex
-@unpublished{Wong2026,
-  author = {Wong, Wai Kui},
-  title  = {Spinodal-controlled freeze-out and nucleation at the first-order
-            superfluid--supersolid transition of a dipolar gas},
-  note   = {submitted},
-  year   = {2026}
+@misc{Wong2026,
+  author        = {Wong, Wai Kui},
+  title         = {Spinodal-controlled freeze-out and nucleation at the first-order
+                   superfluid--supersolid transition of a dipolar gas},
+  year          = {2026},
+  eprint        = {2610.12511},
+  archivePrefix = {arXiv},
+  primaryClass  = {cond-mat.quant-gas},
+  doi           = {10.48550/arXiv.2610.12511},
+  url           = {https://arxiv.org/abs/2610.12511}
 }
 
 @misc{WongCode2026,
